@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "structs.h"
 #include "login.h"
 
