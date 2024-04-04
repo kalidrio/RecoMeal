@@ -15,18 +15,25 @@ User* parse_db() {
     char curr_filename[MAXLEN];
     int num_of_users;
 
-    ifp = fopen("count.txt", "rt");
+    ifp = fopen("DB/count.txt", "rt");
     fscanf(ifp, "%d", &num_of_users);
     fclose(ifp);
 
+    head = (User *) malloc(sizeof(User));
+
     for (int i = 1; i <= num_of_users; i++) {
-        sprintf(curr_filename, "%d.txt", i);
+        sprintf(curr_filename, "DB/%d.txt", i);
         ifp = fopen(curr_filename, "rt");
 
         // Create User struct for current user
         tmp = (User *) malloc(sizeof(User));
         fscanf(ifp, "%s", tmp->username);
         fscanf(ifp, "%s", tmp->password);
+
+        // Link to head if first user
+        if (i == 1) {
+            head->next = tmp;
+        }
 
         // Allocate memory for next user and set tmp to next user
         tmp->next = (User *) malloc(sizeof(User));
