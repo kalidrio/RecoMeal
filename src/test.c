@@ -1,7 +1,13 @@
-#include "headers/MBP.h"
+#include "structs.h"
+#include "login.h"
 
 int main() {
-    print_menu();
+    User *user;
+
+    user = parse_db();
+
+    printf("%s", user->username);
+    printf("%s", user->password);
 
     return 0;
 }
