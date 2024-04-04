@@ -12,6 +12,7 @@ User* parse_db() {
 
     User *tmp;
     FILE *ifp;
+    char curr_filename[MAXLEN];
     int num_of_users;
 
     ifp = fopen("count.txt", "rt");
@@ -19,7 +20,8 @@ User* parse_db() {
     fclose(ifp);
 
     for (int i = 1; i <= num_of_users; i++) {
-        ifp = fopen(("%d.txt", i), "rt");
+        sprintf(curr_filename, "%d.txt", i);
+        ifp = fopen(curr_filename, "rt");
 
         // Create User struct for current user
         tmp = (User *) malloc(sizeof(User));
