@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "structs.h"
 #define MAXLEN 1000
 
