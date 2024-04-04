@@ -1,11 +1,6 @@
 #include <stdio.h>
+#include "structs.h"
 #define MAXLEN 1000
-
-typedef struct usr_node {
-    char username[MAXLEN];
-    char password[MAXLEN];
-    struct usr_node *next;
-} User;
 
 // Parses /DB and creates a linked list of User structs
 // NOTE: The head of the struct does not represent a user and should be skipped when looping through the list
