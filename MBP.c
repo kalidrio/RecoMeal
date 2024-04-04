@@ -16,14 +16,34 @@ typedef struct
 
 
 int main (){
-    int i;
+    int i, option=0;
     FILE *ifp, *ofp;
 
+	while (1) {
+		printf("What would you like to do? (ENTER THE NUMBER)\n");
+		printf("1. Peruse Mode\n2. Display Mode\n3. Input Mode\n4. Exit\n");
+		scanf("%d", &option);
+		switch(option){
+			case 1: peruse_mode();
+				continue;
+			case 2: display_mode();
+				continue;
+			case 3: input_mode();
+				continue;
+			case 4: printf("program end\n");
+					exit();
+					return 0;
+			default: printf("Please choose a valid option\n");
+				continue;
+
+	} 
+	
+
+	}
+	
 
 
 
-    printf("What would you like to do? \n");
-	printf("Hello World\n");
 	return 0;
 	//hiiiiiiiiiii
     
