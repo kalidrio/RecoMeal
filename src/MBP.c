@@ -15,7 +15,7 @@ typedef struct
 }food_item;
 
 
-int main (){
+int print_menu(){
     int i, option=0;
     FILE *ifp, *ofp;
 
@@ -24,14 +24,13 @@ int main (){
 		printf("1. Peruse Mode\n2. Display Mode\n3. Input Mode\n4. Exit\n");
 		scanf("%d", &option);
 		switch(option){
-			case 1: peruse_mode();
+			case 1: //peruse_mode();
 				continue;
-			case 2: display_mode();
+			case 2: //display_mode();
 				continue;
-			case 3: input_mode();
+			case 3: //input_mode();
 				continue;
 			case 4: printf("program end\n");
-					exit();
 					return 0;
 			default: printf("Please choose a valid option\n");
 				continue;
