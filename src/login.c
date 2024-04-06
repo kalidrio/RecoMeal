@@ -86,9 +86,11 @@ void saveAccountToDB(User account) {
     int num_of_users;
     char filename[MAXLEN];
 
-    count_file = fopen("DB/count.txt", "rt"); // read and write mode
-
+    count_file = fopen("DB/count.txt", "rt");
     fscanf(count_file, "%d", &num_of_users);
+    fclose(count_file);
+
+    count_file = fopen("DB/count.txt", "wt");
     fprintf(count_file, "%d", num_of_users + 1);
 
     sprintf(filename, "DB/%d.txt", num_of_users + 1);
