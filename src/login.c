@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "structs.h"
 #define MAXLEN 1000
 
@@ -57,10 +58,35 @@ void signupPage() {
 
 }
 
-void createAccount(User* user_list) {
+// Creates User struct and links it to existing user list
+void createAccount(char username[MAXLEN], char password[MAXLEN], User* user_list) {
+    User* account;
+    account = (User *) malloc(sizeof(User));
 
+    strcpy(account->username, username);
+    strcpy(account->password, password);
+
+    saveAccountToDB(*account);
+
+    user_list->next = account;
+    account->next = NULL;
 }
 
+// Saves new user accounts to the DB
+// DO NOT CALL THIS FUNCTION, call createAccount instead
 void saveAccountToDB(User account) {
-    
+    FILE *ifp;
+    FILE *ofp;
+    int num_of_users;
+    char filename[MAXLEN];
+
+    sprintf(filename, "DB/%d.txt", num_of_users + 1);
+
+    ifp = fopen("DB/count.txt", "rt");
+    ofp = fopen(filename, "wt");
+
+    fprintf("%s\n%s", account.username, account.password);
+
+    fclose(ifp);
+    fclose(ofp);
 }
