@@ -22,24 +22,25 @@ User* parseDB() {
     fclose(ifp);
 
     head = (User *) malloc(sizeof(User));
-    tmp = (User *) malloc(sizeof(User));
 
     for (int i = 1; i <= num_of_users; i++) {
         sprintf(curr_filename, "DB/%d.txt", i);
         ifp = fopen(curr_filename, "rt");
 
+        // Link to head if first user
+        if (i == 1) {
+            head->next = (User *) malloc(sizeof(User));
+            tmp = head->next;
+        }
+        // Link to last user if not
+        else {
+            tmp->next = (User *) malloc(sizeof(User));
+            tmp = tmp->next;
+        }
+
         // Create User struct for current user
         fscanf(ifp, "%s", tmp->username);
         fscanf(ifp, "%s", tmp->password);
-
-        // Link to head if first user
-        if (i == 1) {
-            head->next = tmp;
-        }
-
-        // Allocate memory for next user and set tmp to next user
-        tmp->next = (User *) malloc(sizeof(User));
-        tmp = tmp->next;
     }
 
     // Set last user's next pointer to NULL
@@ -61,11 +62,12 @@ void signupPage() {
 
 // Creates User struct and links it to existing user list
 void createAccount(char username[], char password[], User* user_list) {
-    User* account;
+    User *account;
     account = (User *) malloc(sizeof(User));
 
     strcpy(account->username, username);
     strcpy(account->password, password);
+    account->next = NULL;
 
     saveAccountToDB(*account);
 
@@ -74,7 +76,6 @@ void createAccount(char username[], char password[], User* user_list) {
     }
 
     user_list->next = account;
-    account->next = NULL;
 }
 
 // Saves new user accounts to the DB
