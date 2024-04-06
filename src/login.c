@@ -22,13 +22,13 @@ User* parseDB() {
     fclose(ifp);
 
     head = (User *) malloc(sizeof(User));
+    tmp = (User *) malloc(sizeof(User));
 
     for (int i = 1; i <= num_of_users; i++) {
         sprintf(curr_filename, "DB/%d.txt", i);
         ifp = fopen(curr_filename, "rt");
 
         // Create User struct for current user
-        tmp = (User *) malloc(sizeof(User));
         fscanf(ifp, "%s", tmp->username);
         fscanf(ifp, "%s", tmp->password);
 
@@ -60,7 +60,7 @@ void signupPage() {
 }
 
 // Creates User struct and links it to existing user list
-void createAccount(char username[MAXLEN], char password[MAXLEN], User* user_list) {
+void createAccount(char username[], char password[], User* user_list) {
     User* account;
     account = (User *) malloc(sizeof(User));
 
@@ -68,6 +68,10 @@ void createAccount(char username[MAXLEN], char password[MAXLEN], User* user_list
     strcpy(account->password, password);
 
     saveAccountToDB(*account);
+
+    while (user_list->next != NULL) {
+        user_list = user_list->next;
+    }
 
     user_list->next = account;
     account->next = NULL;
@@ -81,13 +85,14 @@ void saveAccountToDB(User account) {
     int num_of_users;
     char filename[MAXLEN];
 
-    count_file = fopen("DB/count.txt", "rt+"); // read and write mode
+    count_file = fopen("DB/count.txt", "rt"); // read and write mode
+
+    fscanf(count_file, "%d", &num_of_users);
+    fprintf(count_file, "%d", num_of_users + 1);
+
+    sprintf(filename, "DB/%d.txt", num_of_users + 1);
+    
     new_user_file = fopen(filename, "wt");
-
-    fscanf(count_file, "%d", num_of_users);
-    fprintf(count_file, "%d", num_of_users++);
-
-    sprintf(filename, "DB/%d.txt", num_of_users);
 
     fprintf(new_user_file, "%s\n%s", account.username, account.password);
 
