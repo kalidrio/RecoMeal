@@ -6,4 +6,6 @@ User* loginPage();
 
 void signupPage();
 
-void createAccount(User* user_list);
+void createAccount(char username[MAXLEN], char password[MAXLEN], User* user_list);
+
+void saveAccountToDB(User account);
