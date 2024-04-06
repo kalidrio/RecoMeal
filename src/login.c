@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "structs.h"
+#include "login.h"
 #define MAXLEN 1000
 
 // Parses /DB and creates a linked list of User structs
@@ -88,7 +89,7 @@ void saveAccountToDB(User account) {
 
     sprintf(filename, "DB/%d.txt", num_of_users);
 
-    fprintf("%s\n%s", account.username, account.password);
+    fprintf(new_user_file, "%s\n%s", account.username, account.password);
 
     fclose(count_file);
     fclose(new_user_file);
