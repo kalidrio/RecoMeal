@@ -5,7 +5,7 @@
 
 // Parses /DB and creates a linked list of User structs
 // NOTE: The head of the struct does not represent a user and should be skipped when looping through the list
-User* parse_db() {
+User* parseDB() {
     User *head;
     // head does not represent a user. in the case where the system starts with 0 users,
     // this function will still return a user pointer, so that users created later can still be attached to it.
@@ -43,4 +43,24 @@ User* parse_db() {
     // Set last user's next pointer to NULL
     tmp->next = NULL;
     return head;
+}
+
+void mainMenu() {
+
+}
+
+User* loginPage() {
+
+}
+
+void signupPage() {
+
+}
+
+void createAccount(User* user_list) {
+
+}
+
+void saveAccountToDB(User account) {
+    
 }
