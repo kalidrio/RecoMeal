@@ -75,18 +75,21 @@ void createAccount(char username[MAXLEN], char password[MAXLEN], User* user_list
 // Saves new user accounts to the DB
 // DO NOT CALL THIS FUNCTION, call createAccount instead
 void saveAccountToDB(User account) {
-    FILE *ifp;
-    FILE *ofp;
+    FILE *count_file;
+    FILE *new_user_file;
     int num_of_users;
     char filename[MAXLEN];
 
-    sprintf(filename, "DB/%d.txt", num_of_users + 1);
+    count_file = fopen("DB/count.txt", "rt+"); // read and write mode
+    new_user_file = fopen(filename, "wt");
 
-    ifp = fopen("DB/count.txt", "rt");
-    ofp = fopen(filename, "wt");
+    fscanf(count_file, "%d", num_of_users);
+    fprintf(count_file, "%d", num_of_users++);
+
+    sprintf(filename, "DB/%d.txt", num_of_users);
 
     fprintf("%s\n%s", account.username, account.password);
 
-    fclose(ifp);
-    fclose(ofp);
+    fclose(count_file);
+    fclose(new_user_file);
 }
