@@ -9,11 +9,6 @@ void print_Menu(void) {
 	return;
 }
 
-void peruse_mode(void) {
-	printf("peruse\n");
-	return;
-}
-
 int S_init(void) {
 	int option = 0;
 	char extra;  // dummy var to catch trailing input
@@ -31,7 +26,7 @@ int S_init(void) {
 		else {
 			switch(option){
 				case 1:
-					peruse_mode();
+					//peruse mode
 					break;
 				case 2:
 					//display_mode(fp);
