@@ -49,15 +49,52 @@ User* parseDB() {
 }
 
 void mainMenu() {
+    int choice; 
 
+    while(1){
+        printf("(1) Log In\n");
+        printf("(2) Sign Up\n");
+        printf("(3) Exit\n\n");
+
+        printf("Choice: ");
+
+        scanf("%d", &choice);
+
+        switch(choice){
+            case 1:
+                loginPage();
+                continue;
+            case 2:
+                signupPage();
+                continue;
+            case 3:
+                return;
+            default:
+                printf("\nInvalid choice. Please choose one of the options above.");
+                continue;
+        }
+    }
 }
 
 User* loginPage() {
+    char username[MAXLEN];
+    char password[MAXLEN];
+
+    printf("Username: ");
+    scanf("%s", username);
+    printf("Password: ");
+    scanf("%s", password);
 
 }
 
 void signupPage() {
+    char username[MAXLEN];
+    char password[MAXLEN];
 
+    printf("Username: ");
+    scanf("%s", username);
+    printf("Password: ");
+    scanf("%s", password);
 }
 
 // Creates User struct and links it to existing user list
