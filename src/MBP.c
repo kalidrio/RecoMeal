@@ -19,7 +19,7 @@ void suggest_mode(FILE *fp, FILE *fp1);
 
 
 
-int main(void) {
+int S_init(void) {
 	int option = 0;
 	char extra;  // dummy var to catch trailing input
 	while (option != 4) {
