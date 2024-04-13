@@ -1,18 +1,15 @@
 typedef struct {
-        int ID;
-        char name[50];
-        float price;
-        float rating;
-        float sulit_value;
+    int ID;
+    char name[50];
+    float price;
+    float rating;
+    float sulit_value;
 } food_item;
 
-// user defined functions
-void read_data(FILE *from_catalogue, food_item* catalogue);	
+// User defined functions
+void read_data(FILE *from_catalogue, food_item* catalogue);
 void print_Menu(void);
+void peruse(FILE* from_catalogue, food_item* catalogue);
 
-// case-dependent functions
-void peruse_mode(FILE* from_catalogue, food_item* catalogue);
-
-// initialiazation functions
+// Initialization functions
 int S_init(void);
-
