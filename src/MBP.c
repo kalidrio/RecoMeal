@@ -9,6 +9,23 @@ typedef struct {
         float sulit_value;
 } food_item;
 
+void read_data(FILE* from_catalogue, food_item* catalogue) {
+
+	for (int i = 0; i < 13; i++) {
+		if (fscanf(from_catalogue,
+					"%d %s %f %f %f",
+					&catalogue[i].ID,
+					catalogue[i].name,
+					&catalogue[i].price,
+					&catalogue[i].rating,
+					&catalogue[i].sulit_value) != 5) 
+		{
+			printf("Error reading data.\n");
+			break;
+		}
+	}
+}
+
 void print_Menu(void) {
         printf("\nWhat would you like to do? [ENTER THE NUMBER]\n");
         printf("\t1. Peruse Mode\n");
@@ -16,25 +33,13 @@ void print_Menu(void) {
         printf("\t3. Input Mode\n");
         printf("\t4. Exit\n");
 	printf("\nChoice: ");
-        return;
 }
 
 void peruse(FILE* from_catalogue, food_item* catalogue) { // file pointer and dynamic allocated array for catalogue
-	
-        for (int i = 0; i < 13; i++) { // read data into struct array via Sptr catalogue
-                if (fscanf(from_catalogue, "%d %s %f %f %f",
-                                &catalogue[i].ID,
-                                catalogue[i].name,
-                                &catalogue[i].price,
-                                &catalogue[i].rating,
-                                &catalogue[i].sulit_value) != 5) {
-                        printf("Error reading data.\n");
-                        break;
-                }else {
-			printf("\t%03d   %s\n", catalogue[i].ID, catalogue[i].name);
-		}
 
-        }
+	for (int i = 0; i < 13; i++) {
+	printf("\t%03d   %s\n", catalogue[i].ID, catalogue[i].name);
+	}
 
 	int option;
 	while (1) {
@@ -70,6 +75,10 @@ int S_init(void) {
                 return 1;
         }
 
+        for (int i = 0; i < 13; i++) { // read data into struct array via Sptr catalogue
+		read_data(from_catalogue, catalogue);
+	}
+
         while (option != 4) {
 
                 print_Menu();
@@ -80,6 +89,7 @@ int S_init(void) {
                         printf("\nProgram exited with error: Input was not a single digit integer.\n");
                         fclose(from_catalogue);
                         free(catalogue);
+			catalogue == NULL;
                         return 1;
                 }
                 else {
@@ -106,7 +116,7 @@ int S_init(void) {
 
         fclose(from_catalogue);
         free(catalogue);
-        return 0;
+	catalogue = NULL;
 }
 
 
