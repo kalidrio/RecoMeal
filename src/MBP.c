@@ -46,7 +46,7 @@ void peruse(FILE* from_catalogue, food_item* catalogue, int* errPtr) {
 	while ((result = scanf("%d%c", &option, &trail)) != EOF) {
 		if (result != 2 || trail != '\n') {
 			printf("\nProgram exited with error: ");
-			printf("\n\tInput was not solely an integer\n");
+			printf("\n\tDetected non-numeric input.\n");
 			*errPtr = 1;
 			return;
 		}
@@ -97,7 +97,7 @@ int S_init(void) {
 		}
 		if (scanf("%d%c", &option, &trail) != 2 || trail != '\n') {
 			printf("\nProgram exited with error: ");
-			printf("\n\tInput was not solely an integer.\n");
+			printf("\n\tDetected non-numeric input.\n");
 			fclose(from_catalogue);
 			free(catalogue);
 			return 1;
