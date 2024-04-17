@@ -195,14 +195,13 @@ void suggest_mode(food_item *data_ptr, food_item *history_ptr, int food_num){
 	int option = 0;
 	char extra;
 	float budgets, rating, sulit_value;
-	int food_num, trash;
 	printf("\n-----------SUGGEST MODE-----------\n");
 
 
 	printf("These are your last 10 purchases: \n");
 
 	for (int i = 0; i < 10; i++){
-        printf("ID: %d  Food: %s  Rating: %f\n", history_ptr[i].id, history_ptr[i].food_name, history_ptr[i].rating);
+        printf("ID: %d  Food: %s  Rating: %f\n", history_ptr[i].ID, history_ptr[i].food_name, history_ptr[i].rating);
     	}
    	
     while (1) {
@@ -254,7 +253,7 @@ void budget_mode(food_item *item_food, int food_num, float budgets){
 	//printing food within budget
     for (int i = 0; i < food_num; i++) {
         if (item_food[i].price <= budgets) {
-            printf("%05d  %s\nPHP %.2f\n", item_food[i].id, item_food[i].food_name, item_food[i].price);
+            printf("%05d  %s\nPHP %.2f\n", item_food[i].ID, item_food[i].food_name, item_food[i].price);
         }
     }
 	printf("Returning....\n");
@@ -276,7 +275,7 @@ void rating_mode(food_item *item_food, int food_num, float rating){
 		//printing food within -0.5 and +0.5 rating
 		for (int i = 0; i < food_num; i++) {
 			if (item_food[i].rating >= (rating-0.5) && item_food[i].rating <= (rating+0.5)) {
-				printf("%05d  %s\nRating: %.2f\n", item_food[i].id, item_food[i].food_name, item_food[i].rating);
+				printf("%05d  %s\nRating: %.2f\n", item_food[i].ID, item_food[i].food_name, item_food[i].rating);
 			}
 		}
 		printf("Returning....\n");
@@ -292,7 +291,7 @@ void sulit_value_mode(food_item *item_food, int food_num, float sulit_value){
 	//printing food within budget
     for (int i = 0; i < food_num; i++) {
         if (item_food[i].sulit_value >= sulit_value) {
-            printf("%05d %s\nSulit value: %.2f\n", item_food[i].id, item_food[i].food_name, item_food[i].sulit_value);
+            printf("%05d %s\nSulit value: %.2f\n", item_food[i].ID, item_food[i].food_name, item_food[i].sulit_value);
         }
     }
 	printf("Returning....\n");
