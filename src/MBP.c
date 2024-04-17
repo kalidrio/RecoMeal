@@ -14,15 +14,25 @@ typedef struct
 
 void print_menu(void);
 void print_menu2(void);
+void print_menu3(void);
+
 //void peruse_mode(FILE *fp);
+
+
+//suggest mode
 void suggest_mode(FILE *fp, FILE *fp1);
-//void input_mode(FILE *fp);
 void budget_mode(food_item *fp, int food_num, float budgets);
 void rating_mode(food_item *fp, int food_num, float rating);
 void sulit_value_mode(food_item *fp, int food_num, float sulit_value);
 void sorting_algo_price(food_item *items, int num_items);
 void sorting_algo_rating(food_item *items, int num_items);
 void sorting_algo_sulit(food_item *items, int num_items);
+
+//input mode
+void input_mode(FILE *fp, FILE *fp1);
+void existing(food_item *add, food_item *add_history);
+void new_item(food_item *add, food_item *add_history);
+
 
 
 int S_init(void) {
@@ -53,7 +63,7 @@ int S_init(void) {
 					suggest_mode(fp, fp1);
 					break;
 				case 3:
-					//input_mode(fp);
+					input_mode(fp, fp1);
 					break;
 				case 4:
 					printf("\nProgram exited successfully.\n");
@@ -153,6 +163,15 @@ void print_menu2(void) {
 	return;
 }
 
+void print_menu3(void) {
+	printf("\nWhat would you like to enter?\n");
+	printf("\t1. Existing food item.\n");	
+	printf("\t2. New food item\n");
+	printf("\t3. Return to Home\n");
+	return;
+}
+
+
 
 
 void suggest_mode(FILE *fp, FILE *fp1){
@@ -161,8 +180,6 @@ void suggest_mode(FILE *fp, FILE *fp1){
 	float budgets, rating, sulit_value;
 	int food_num, trash;
 
-	//fp1 is the last 10 transactions
-	food_item data[MAX];
 	//will just be using pointers and not using structures every time.
 	food_item* history_ptr = file_reading(fp1, &trash);
 	food_item* data_ptr = file_reading(fp, &food_num);
@@ -178,7 +195,7 @@ void suggest_mode(FILE *fp, FILE *fp1){
     while (1) {
 		option = 0; 
         print_menu2();
-        if (scanf("%d%c", &option, &extra) != 2 || extra != '\n') {
+        if (scanf("%d%c", &option, &extra) != 2 || extra != '\n' || option < 1 || option > 4) {
             printf("\nError: Input was not a single digit integer. Please try again.\n");
             // Clear the input buffer
             while ((getchar()) != '\n');
@@ -269,3 +286,55 @@ void sulit_value_mode(food_item *item_food, int food_num, float sulit_value){
 	return;
 }
 
+
+
+
+void input_mode(FILE *fp, FILE *fp1){
+	int option = 0;
+	food_item* history_ptr = file_reading(fp1, &trash);
+	food_item* data_ptr = file_reading(fp, &food_num);
+
+
+
+    while (1) {
+        print_menu3();
+        if (scanf("%d%c", &option, &extra) != 2 || extra != '\n') {
+            printf("\nError: Input was not a single digit integer. Please try again.\n");
+            // Clear the input buffer
+            while ((getchar()) != '\n');
+            continue; // Continue to the next iteration of the loop
+        }
+		else {
+            switch(option) {
+                case 1:
+                    existing(data_ptr, history_ptr);	//existing food item		
+                    break;
+                case 2:
+                    new_item(data_ptr, history_ptr); //rating mode
+                    break;
+                case 3:
+					printf("\nReturning to Home...\n"); //exit
+					free(history_ptr); //freeing the memory allocated by file_reading
+                    free(data_ptr);
+					return;
+                    break;
+                default:
+                    printf("Invalid option. Please choose again.\n");
+            }
+        }
+    }
+}
+	
+
+void existing(food_item *add, food_item *add_history){
+
+
+
+}
+
+
+
+
+void new_item(food_item *add, food_item *add_history){
+
+}
