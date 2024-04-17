@@ -13,7 +13,7 @@ void print_menu3(void);
 
 
 //suggest mode
-void suggest_mode(food_item *data_ptr, food_item *history_ptr, int food_num);
+void suggest_mode(food_item *catalogue, food_item *history, int food_num);
 void budget_mode(food_item *fp, int food_num, float budgets);
 void rating_mode(food_item *fp, int food_num, float rating);
 void sulit_value_mode(food_item *fp, int food_num, float sulit_value);
@@ -31,7 +31,7 @@ void new_item(food_item *add, food_item *add_history);
   
   
 
-void read_data(FILE* from_catalogue, food_item* catalogue, int food_num) {
+void read_data(FILE* from_catalogue, food_item* catalogue, int *food_num) {
 	int i = 0;
 	int result;
 	while ((result = fscanf(from_catalogue, "%d %s %f %f %f",
@@ -42,6 +42,7 @@ void read_data(FILE* from_catalogue, food_item* catalogue, int food_num) {
 				      &catalogue[i].sulit_value)) == 5) {
         	i++;
 	}
+	*food_num = i;
 	if (result != EOF && result != 5) { // error handling
 		fprintf(stderr, "Error reading data.\n");
 	}
@@ -49,6 +50,7 @@ void read_data(FILE* from_catalogue, food_item* catalogue, int food_num) {
 	if (ferror(from_catalogue)) { // more detailed error msg
 		perror("Error: \n");
 	}
+
 }
 
 void print_Menu(void) {
@@ -101,9 +103,9 @@ void peruse(food_item* catalogue, int* errPtr) {
 int S_init(void) {
 	int option = 0;
 	char trail; // dummy var to catch trailing characters
-	int error = 0, food_num;
+	int error = 0;
+	int food_num, trash;
 	int* errPtr = &error;
-	
 
 	FILE* from_catalogue = fopen("../DB/catalogue.txt", "r");
 	if (!from_catalogue) {
@@ -129,8 +131,8 @@ int S_init(void) {
 		printf("Memory allocation failed.\n");
 		return 1;
 	}
-	read_data(from_catalogue, catalogue, food_num);
-	read_data(from_history, history, food_num);
+	read_data(from_catalogue, catalogue, &food_num);
+	read_data(from_history, history, &trash);
 	
 	while (option != 4 && !error) {
 		if (!error) {
@@ -166,194 +168,91 @@ int S_init(void) {
 	}	
 	fclose(from_catalogue);
 	free(catalogue);
+	fclose(from_history);
+	free(history);
 	return 0;
 }
 
 
-void sorting_algo_price(food_item *tb_sorted, int num_items) 
-{
-    int i, j;
-    food_item temp;
 
-    for (i = 0; i < num_items - 1; i++) {
-        for (j = 0; j < num_items - i - 1; j++) {
-            // Compare prices and swap if needed
-            if (tb_sorted[j].price > tb_sorted[j + 1].price) {
-                temp = tb_sorted[j];
-                tb_sorted[j] = tb_sorted[j + 1];
-                tb_sorted[j + 1] = temp;
-            }
-        }
-    }
-}
-
-
-
-
-void suggest_mode(food_item *data_ptr, food_item *history_ptr, int food_num){
-	int option = 0;
+void suggest_mode(food_item *catalogue, food_item *history, int food_num){
 	char extra;
 	float budgets, rating, sulit_value;
-	printf("\n-----------SUGGEST MODE-----------\n");
+	char trail; // dummy var to catch trailing characters
+	int result;
 
-
-	printf("These are your last 10 purchases: \n");
+	printf("\n-----------SUGGEST MODE----------- %d\n", food_num);
+	printf("\nThese are your last 10 purchases: \n");
 
 	for (int i = 0; i < 10; i++){
-        printf("ID: %d  Food: %s  Rating: %f\n", history_ptr[i].ID, history_ptr[i].name, history_ptr[i].rating);
-    	}
+        printf("ID: %03d  Food: %-20s  Rating: %.2f\n", history[i].ID, history[i].name, history[i].rating);
+	}
    	
-    while (1) {
-		option = 0; 
-        print_menu2();
-        if (scanf("%d%c", &option, &extra) != 2 || extra != '\n' || option < 1 || option > 4) {
-            printf("\nError: Input was not a single digit integer. Please try again.\n");
-            // Clear the input buffer
-            while ((getchar()) != '\n');
-            continue; // Continue to the next iteration of the loop
-        }
-		else {
-            switch(option) {
-                case 1:
-					printf("What is your budget for the meal?: \n");
-					scanf("%f", &budgets);
-                    budget_mode(data_ptr, food_num, budgets);	//budget mode			
-                    break;
-                case 2:
-					printf("Find foods based on rating (ENTER RATING 1.0 -10.0): \n");
-					scanf("%f", &rating);
-                    rating_mode(data_ptr, food_num, rating); //rating mode
-                    break;
-                case 3:
-					printf("Find foods based on rating (ENTER RATING 1.0-5.0): \n");
-					scanf("%f", &rating);
-                    sulit_value_mode(data_ptr, food_num, sulit_value); //sulit mode
-                    break;
-                case 4:
-                    printf("\nReturning to Home...\n"); //exit
-					free(history_ptr); //freeing the memory allocated by file_reading
-                    free(data_ptr);
-					return;
-                default:
-                    printf("Invalid option. Please choose again.\n");
-            }
-        }
-    }
-}
 
 
-void budget_mode(food_item *item_food, int food_num, float budgets){
-	
-	printf("Food items within your budget\n");
-	printf("===========================================\n\n");
-	
-	//will make a sorting algorithm
-	sorting_algo_price(item_food, food_num);
-	//printing food within budget
-    for (int i = 0; i < food_num; i++) {
-        if (item_food[i].price <= budgets) {
-            printf("%05d  %s\nPHP %.2f\n", item_food[i].ID, item_food[i].name, item_food[i].price);
-        }
-    }
-	printf("Returning....\n");
-	return;
-}
-
-
-void rating_mode(food_item *item_food, int food_num, float rating){	
-	if (rating<10.0) {
-		printf("Foods available from rating %f to %f\n", rating-0.5, rating+0.5);
-	}
-	else{
-		printf("Foods available from rating %f to %f\n", rating-0.5, rating);
-
-	}
-		printf("===========================================\n\n");	
-		//will make a sorting algorithm
-		sorting_algo_rating(item_food, food_num);
-		//printing food within -0.5 and +0.5 rating
-		for (int i = 0; i < food_num; i++) {
-			if (item_food[i].rating >= (rating-0.5) && item_food[i].rating <= (rating+0.5)) {
-				printf("%05d  %s\nRating: %.2f\n", item_food[i].ID, item_food[i].name, item_food[i].rating);
-			}
+	printf("\nWhat is your budget for todays meal? [ex. 50.00]");
+	while ((result = scanf("%f%c", &budgets, &trail)) != EOF) {
+		if (result != 2 || trail != '\n') {
+			printf("\nPlease enter your budget correctly");
+			continue;
 		}
-		printf("Returning....\n");
-		return;		
-}
-
-void sulit_value_mode(food_item *item_food, int food_num, float sulit_value){
-	printf("Food items that has a sulit value of %f and above\n", sulit_value);
-	printf("===========================================\n\n");
-	
-	//will make a sorting algorithm
-	sorting_algo_sulit(item_food, food_num);
-	//printing food within budget
-    for (int i = 0; i < food_num; i++) {
-        if (item_food[i].sulit_value >= sulit_value) {
-            printf("%05d %s\nSulit value: %.2f\n", item_food[i].ID, item_food[i].name, item_food[i].sulit_value);
+		else{
+		budget_mode(catalogue, food_num, budgets);	//budget mode			
+		printf("Based on")
         }
     }
-	printf("Returning....\n");
-	return;
-}
-/*
-void input_mode(food_item *, FILE *fp1){
-	int option = 0;
-	food_item* history_ptr = file_reading(fp1, &trash);
-	food_item* data_ptr = file_reading(fp, &food_num);
-}
-
-*/
-
-	
-
-/*void existing(food_item *add, food_item *add_history){
-return;
 }
 
 
 
-
-void new_item(food_item *add, food_item *add_history){
-
-		}
-	}
-*/
-
-
-void sorting_algo_rating(food_item *tb_sorted, int num_items) 
-{
+// Budget mode function
+void budget_mode(food_item *item_food, int food_num, float budgets) {
     int i, j;
-    food_item temp;
-
-    for (i = 0; i < num_items - 1; i++) {
-        for (j = 0; j < num_items - i - 1; j++) {
-            // Compare ratings and swap if needed
-            if (tb_sorted[j].rating > tb_sorted[j + 1].rating) {
-                temp = tb_sorted[j];
-                tb_sorted[j] = tb_sorted[j + 1];
-                tb_sorted[j + 1] = temp;
+    
+    // Creating a new array of structures to copy the catalogue
+    food_item *sorted_catalogue = malloc(food_num * sizeof(food_item));
+    if (sorted_catalogue == NULL) {
+        printf("Memory allocation failed\n");
+        return;
+    }
+    
+    // Copying the catalogue to the new array
+    for (i = 0; i < food_num; i++) {
+        sorted_catalogue[i] = item_food[i];
+        // Calculate sulit value (assuming it's price / rating for simplicity)
+        sorted_catalogue[i].sulit_value = sorted_catalogue[i].price / sorted_catalogue[i].rating;
+    }
+    
+    // Bubble sort the array based on sulit_value
+    for (i = 0; i < food_num - 1; i++) {
+        for (j = 0; j < food_num - i - 1; j++) {
+            if (sorted_catalogue[j].sulit_value > sorted_catalogue[j + 1].sulit_value) {
+                // Swap the items
+                food_item temp = sorted_catalogue[j];
+                sorted_catalogue[j] = sorted_catalogue[j + 1];
+                sorted_catalogue[j + 1] = temp;
             }
         }
     }
-}
-
-void sorting_algo_sulit(food_item *tb_sorted, int num_items) 
-{
-    int i, j;
-    food_item temp;
-
-    for (i = 0; i < num_items - 1; i++) {
-        for (j = 0; j < num_items - i - 1; j++) {
-            // Compare sulit value and swap if needed
-            if (tb_sorted[j].sulit_value > tb_sorted[j + 1].sulit_value) {
-                temp = tb_sorted[j];
-                tb_sorted[j] = tb_sorted[j + 1];
-                tb_sorted[j + 1] = temp;
-            }
+    
+    // Printing food items within budget from highest to lowest sulit value
+    printf("Food items within your budget sorted by sulit value:\n");
+    printf("===========================================\n\n");
+    for (i = food_num - 1; i >= 0; i--) {
+        if (sorted_catalogue[i].price <= budgets) {
+            printf("ID: %03d  Food: %-20s  Price: %.2f  Rating: %.2f  Sulit Value: %.2f\n",
+                   sorted_catalogue[i].ID, sorted_catalogue[i].name,
+                   sorted_catalogue[i].price, sorted_catalogue[i].rating, sorted_catalogue[i].sulit_value);
         }
     }
+    
+    // Free dynamically allocated memory
+    free(sorted_catalogue);
 }
+
+
+
+
 
 
 void print_menu(void) {
