@@ -1,8 +1,35 @@
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
 #include "MBP.h"
+  
+  
+void print_menu(void);
+void print_menu2(void);
+void print_menu3(void);
+
+//void peruse_mode(FILE *fp);
+
+
+//suggest mode
+void suggest_mode(FILE *fp, FILE *fp1);
+void budget_mode(food_item *fp, int food_num, float budgets);
+void rating_mode(food_item *fp, int food_num, float rating);
+void sulit_value_mode(food_item *fp, int food_num, float sulit_value);
+void sorting_algo_price(food_item *items, int num_items);
+void sorting_algo_rating(food_item *items, int num_items);
+void sorting_algo_sulit(food_item *items, int num_items);
+
+//input mode
+void input_mode(FILE *fp, FILE *fp1);
+void existing(food_item *add, food_item *add_history);
+void new_item(food_item *add, food_item *add_history);
+  
+
+  
+  
 
 void read_data(FILE* from_catalogue, food_item* catalogue) {
 	int i = 0;
@@ -109,10 +136,10 @@ int S_init(void) {
 					peruse(from_catalogue, catalogue, errPtr);
 					break;
 				case 2:
-					// Implement Suggest Mode
+					suggest_mode(fp, fp1);
 					break;
 				case 3:
-					// Implement Input Mode
+					input_mode(fp, fp1);
 					break;
 				case 4:
 					printf("Program exited successfully.\n");
@@ -121,10 +148,267 @@ int S_init(void) {
 					printf("Please choose a value within 1 to 4\n");
 					break;
 			}
-		}
-	}
-
+		} 
+	}	
 	fclose(from_catalogue);
 	free(catalogue);
 	return 0;
 }
+
+//functions to read food_items
+food_item* file_reading(FILE *file, int *food_num) 
+{
+    food_item* temp = (food_item*)malloc(MAX * sizeof(food_item));
+    int i = 0;
+    while (fscanf(file, "%d %99s %f %f %f", &temp[i].id, temp[i].food_name, &temp[i].price, &temp[i].rating, &temp[i].sulit_value) == 5) {
+        i++;
+    }
+	*food_num = i-1;
+    return temp;
+}
+
+void sorting_algo_price(food_item *tb_sorted, int num_items) 
+{
+    int i, j;
+    food_item temp;
+
+    for (i = 0; i < num_items - 1; i++) {
+        for (j = 0; j < num_items - i - 1; j++) {
+            // Compare prices and swap if needed
+            if (tb_sorted[j].price > tb_sorted[j + 1].price) {
+                temp = tb_sorted[j];
+                tb_sorted[j] = tb_sorted[j + 1];
+                tb_sorted[j + 1] = temp;
+            }
+        }
+    }
+}
+
+
+void sorting_algo_rating(food_item *tb_sorted, int num_items) 
+{
+    int i, j;
+    food_item temp;
+
+    for (i = 0; i < num_items - 1; i++) {
+        for (j = 0; j < num_items - i - 1; j++) {
+            // Compare ratings and swap if needed
+            if (tb_sorted[j].rating > tb_sorted[j + 1].rating) {
+                temp = tb_sorted[j];
+                tb_sorted[j] = tb_sorted[j + 1];
+                tb_sorted[j + 1] = temp;
+            }
+        }
+    }
+}
+
+void sorting_algo_sulit(food_item *tb_sorted, int num_items) 
+{
+    int i, j;
+    food_item temp;
+
+    for (i = 0; i < num_items - 1; i++) {
+        for (j = 0; j < num_items - i - 1; j++) {
+            // Compare sulit value and swap if needed
+            if (tb_sorted[j].sulit_value > tb_sorted[j + 1].sulit_value) {
+                temp = tb_sorted[j];
+                tb_sorted[j] = tb_sorted[j + 1];
+                tb_sorted[j + 1] = temp;
+            }
+        }
+    }
+}
+
+
+void print_menu(void) {
+	printf("\nWhat would you like to do? [ENTER THE NUMBER]\n");
+	printf("\t1. Peruse Mode\n");	
+	printf("\t2. Suggest Mode\n");
+	printf("\t3. Input Mode\n");
+	printf("\t4. Exit\n");
+	return;
+}
+void print_menu2(void) {
+	printf("\nFilter the food items based on: [ENTER THE NUMBER]\n");
+	printf("\t1. Budget\n");	
+	printf("\t2. Ratings\n");
+	printf("\t3. Sulit Value\n");
+	printf("\t4. Return to Home.\n");
+	return;
+}
+
+void print_menu3(void) {
+	printf("\nWhat would you like to enter?\n");
+	printf("\t1. Existing food item.\n");	
+	printf("\t2. New food item\n");
+	printf("\t3. Return to Home\n");
+	return;
+}
+
+
+
+
+void suggest_mode(FILE *fp, FILE *fp1){
+	int option = 0;
+	char extra;
+	float budgets, rating, sulit_value;
+	int food_num, trash;
+
+	//will just be using pointers and not using structures every time.file_reading(fp1, &trash);
+	food_item* data_ptr = file_reading(fp, &food_num);
+	printf("\n-----------SUGGEST MODE-----------\n");
+
+
+	printf("These are your last 10 purchases: \n");
+
+	for (int i = 0; i < 10; i++){
+        printf("ID: %d  Food: %s  Rating: %f\n", history_ptr[i].id, history_ptr[i].food_name, history_ptr[i].rating);
+    	}
+   	
+    while (1) {
+		option = 0; 
+        print_menu2();
+        if (scanf("%d%c", &option, &extra) != 2 || extra != '\n' || option < 1 || option > 4) {
+            printf("\nError: Input was not a single digit integer. Please try again.\n");
+            // Clear the input buffer
+            while ((getchar()) != '\n');
+            continue; // Continue to the next iteration of the loop
+        }
+		else {
+            switch(option) {
+                case 1:
+					printf("What is your budget for the meal?: \n");
+					scanf("%f", &budgets);
+                    budget_mode(data_ptr, food_num, budgets);	//budget mode			
+                    break;
+                case 2:
+					printf("Find foods based on rating (ENTER RATING 1.0 -10.0): \n");
+					scanf("%f", &rating);
+                    rating_mode(data_ptr, food_num, rating); //rating mode
+                    break;
+                case 3:
+					printf("Find foods based on rating (ENTER RATING 1.0-5.0): \n");
+					scanf("%f", &rating);
+                    sulit_value_mode(data_ptr, food_num, sulit_value); //sulit mode
+                    break;
+                case 4:
+                    printf("\nReturning to Home...\n"); //exit
+					free(history_ptr); //freeing the memory allocated by file_reading
+                    free(data_ptr);
+					return;
+                default:
+                    printf("Invalid option. Please choose again.\n");
+            }
+        }
+    }
+}
+
+
+void budget_mode(food_item *item_food, int food_num, float budgets){
+	
+	printf("Food items within your budget\n");
+	printf("===========================================\n\n");
+	
+	//will make a sorting algorithm
+	sorting_algo_price(item_food, food_num);
+	//printing food within budget
+    for (int i = 0; i < food_num; i++) {
+        if (item_food[i].price <= budgets) {
+            printf("%05d  %s\nPHP %.2f\n", item_food[i].id, item_food[i].food_name, item_food[i].price);
+        }
+    }
+	printf("Returning....\n");
+	return;
+}
+
+
+void rating_mode(food_item *item_food, int food_num, float rating){	
+	if (rating<10.0) {
+		printf("Foods available from rating %f to %f\n", rating-0.5, rating+0.5);
+	}
+	else{
+		printf("Foods available from rating %f to %f\n", rating-0.5, rating);
+
+	}
+		printf("===========================================\n\n");	
+		//will make a sorting algorithm
+		sorting_algo_rating(item_food, food_num);
+		//printing food within -0.5 and +0.5 rating
+		for (int i = 0; i < food_num; i++) {
+			if (item_food[i].rating >= (rating-0.5) && item_food[i].rating <= (rating+0.5)) {
+				printf("%05d  %s\nRating: %.2f\n", item_food[i].id, item_food[i].food_name, item_food[i].rating);
+			}
+		}
+		printf("Returning....\n");
+		return;		
+}
+
+void sulit_value_mode(food_item *item_food, int food_num, float sulit_value){
+	printf("Food items that has a sulit value of %f and above\n", sulit_value);
+	printf("===========================================\n\n");
+	
+	//will make a sorting algorithm
+	sorting_algo_sulit(item_food, food_num);
+	//printing food within budget
+    for (int i = 0; i < food_num; i++) {
+        if (item_food[i].sulit_value >= sulit_value) {
+            printf("%05d %s\nSulit value: %.2f\n", item_food[i].id, item_food[i].food_name, item_food[i].sulit_value);
+        }
+    }
+	printf("Returning....\n");
+	return;
+}
+
+
+
+
+void input_mode(FILE *fp, FILE *fp1){
+	int option = 0;
+	food_item* history_ptr = file_reading(fp1, &trash);
+	food_item* data_ptr = file_reading(fp, &food_num);
+
+
+
+    while (1) {
+        print_menu3();
+        if (scanf("%d%c", &option, &extra) != 2 || extra != '\n') {
+            printf("\nError: Input was not a single digit integer. Please try again.\n");
+            // Clear the input buffer
+            while ((getchar()) != '\n');
+            continue; // Continue to the next iteration of the loop
+        }
+		else {
+            switch(option) {
+                case 1:
+                    //existing(data_ptr, history_ptr);	//existing food item		
+                    break;
+                case 2:
+                    //new_item(data_ptr, history_ptr); //rating mode
+                    break;
+                case 3:
+					printf("\nReturning to Home...\n"); //exit
+					free(history_ptr); //freeing the memory allocated by file_reading
+                    free(data_ptr);
+					return;
+                    break;
+                default:
+                    printf("Invalid option. Please choose again.\n");
+            }
+        }
+    }
+}
+	
+
+/*void existing(food_item *add, food_item *add_history){
+return;
+}
+
+
+
+
+void new_item(food_item *add, food_item *add_history){
+
+		}
+	}
+*/
+
