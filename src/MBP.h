@@ -7,8 +7,8 @@ typedef struct {
 } food_item;
 
 // User defined functions
-void read_data(FILE *from_catalogue, food_item* catalogue, int food_num);
-void print_Menu(void);
+void read_data(FILE *from_catalogue, food_item* catalogue, int* food_num);
+void print_modes(void);
 void peruse(food_item* catalogue, int* errPtr);
 
 // Initialization functions
