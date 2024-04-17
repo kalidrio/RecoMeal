@@ -22,16 +22,17 @@ void sorting_algo_price(food_item *items, int num_items);
 void sorting_algo_rating(food_item *items, int num_items);
 void sorting_algo_sulit(food_item *items, int num_items);
 
+/*
 //input mode
 void input_mode(FILE *fp, FILE *fp1);
 void existing(food_item *add, food_item *add_history);
 void new_item(food_item *add, food_item *add_history);
-  
+*/  
 
   
   
 
-void read_data(FILE* from_catalogue, food_item* catalogue) {
+void read_data(FILE* from_catalogue, food_item* catalogue, int food_num) {
 	int i = 0;
 	int result;
 	while ((result = fscanf(from_catalogue, "%d %s %f %f %f",
@@ -60,7 +61,7 @@ void print_Menu(void) {
 	printf("\nChoice: ");
 }
 
-void peruse(FILE* from_catalogue, food_item* catalogue, int* errPtr) {
+void peruse(food_item* catalogue, int* errPtr) {
 	for (int i = 0; i < 13; i++) {
 		printf("\t%03d   %s\n", catalogue[i].ID, catalogue[i].name);
 	}
@@ -101,23 +102,37 @@ void peruse(FILE* from_catalogue, food_item* catalogue, int* errPtr) {
 int S_init(void) {
 	int option = 0;
 	char trail; // dummy var to catch trailing characters
-	int error = 0;
+	int error = 0, food_num;
 	int* errPtr = &error;
+	
 
 	FILE* from_catalogue = fopen("../DB/catalogue.txt", "r");
 	if (!from_catalogue) {
 		printf("Error opening catalogue.\n");
 		return 1;
 	}
+	
+	FILE* from_history = fopen("../DB/purchase_history.txt", "r");
+	if (!from_catalogue) {
+		printf("Error opening catalogue.\n");
+		return 1;
+	}
+
 
 	food_item* catalogue = malloc(sizeof(food_item) * 13);
 	if (!catalogue) {
 		printf("Memory allocation failed.\n");
 		return 1;
 	}
-
-	read_data(from_catalogue, catalogue);
-
+	
+	food_item* history = malloc(sizeof(food_item) * 13);
+	if (!catalogue) {
+		printf("Memory allocation failed.\n");
+		return 1;
+	}
+	read_data(from_catalogue, catalogue, food_num);
+	read_data(from_history, history, food_num);
+	
 	while (option != 4 && !error) {
 		if (!error) {
 			print_Menu();
@@ -133,13 +148,13 @@ int S_init(void) {
 			printf("\n");
 			switch(option){
 				case 1:
-					peruse(from_catalogue, catalogue, errPtr);
+					peruse(catalogue, errPtr);
 					break;
 				case 2:
-					suggest_mode(fp, fp1);
+					suggest_mode(catalogue, history, food_num);
 					break;
 				case 3:
-					input_mode(fp, fp1);
+					//input_mode(catalogue, history, food_num);
 					break;
 				case 4:
 					printf("Program exited successfully.\n");
@@ -155,17 +170,6 @@ int S_init(void) {
 	return 0;
 }
 
-//functions to read food_items
-food_item* file_reading(FILE *file, int *food_num) 
-{
-    food_item* temp = (food_item*)malloc(MAX * sizeof(food_item));
-    int i = 0;
-    while (fscanf(file, "%d %99s %f %f %f", &temp[i].id, temp[i].food_name, &temp[i].price, &temp[i].rating, &temp[i].sulit_value) == 5) {
-        i++;
-    }
-	*food_num = i-1;
-    return temp;
-}
 
 void sorting_algo_price(food_item *tb_sorted, int num_items) 
 {
@@ -185,77 +189,13 @@ void sorting_algo_price(food_item *tb_sorted, int num_items)
 }
 
 
-void sorting_algo_rating(food_item *tb_sorted, int num_items) 
-{
-    int i, j;
-    food_item temp;
-
-    for (i = 0; i < num_items - 1; i++) {
-        for (j = 0; j < num_items - i - 1; j++) {
-            // Compare ratings and swap if needed
-            if (tb_sorted[j].rating > tb_sorted[j + 1].rating) {
-                temp = tb_sorted[j];
-                tb_sorted[j] = tb_sorted[j + 1];
-                tb_sorted[j + 1] = temp;
-            }
-        }
-    }
-}
-
-void sorting_algo_sulit(food_item *tb_sorted, int num_items) 
-{
-    int i, j;
-    food_item temp;
-
-    for (i = 0; i < num_items - 1; i++) {
-        for (j = 0; j < num_items - i - 1; j++) {
-            // Compare sulit value and swap if needed
-            if (tb_sorted[j].sulit_value > tb_sorted[j + 1].sulit_value) {
-                temp = tb_sorted[j];
-                tb_sorted[j] = tb_sorted[j + 1];
-                tb_sorted[j + 1] = temp;
-            }
-        }
-    }
-}
 
 
-void print_menu(void) {
-	printf("\nWhat would you like to do? [ENTER THE NUMBER]\n");
-	printf("\t1. Peruse Mode\n");	
-	printf("\t2. Suggest Mode\n");
-	printf("\t3. Input Mode\n");
-	printf("\t4. Exit\n");
-	return;
-}
-void print_menu2(void) {
-	printf("\nFilter the food items based on: [ENTER THE NUMBER]\n");
-	printf("\t1. Budget\n");	
-	printf("\t2. Ratings\n");
-	printf("\t3. Sulit Value\n");
-	printf("\t4. Return to Home.\n");
-	return;
-}
-
-void print_menu3(void) {
-	printf("\nWhat would you like to enter?\n");
-	printf("\t1. Existing food item.\n");	
-	printf("\t2. New food item\n");
-	printf("\t3. Return to Home\n");
-	return;
-}
-
-
-
-
-void suggest_mode(FILE *fp, FILE *fp1){
+void suggest_mode(food_item *data_ptr, food_item *history_ptr, int food_num){
 	int option = 0;
 	char extra;
 	float budgets, rating, sulit_value;
 	int food_num, trash;
-
-	//will just be using pointers and not using structures every time.file_reading(fp1, &trash);
-	food_item* data_ptr = file_reading(fp, &food_num);
 	printf("\n-----------SUGGEST MODE-----------\n");
 
 
@@ -361,14 +301,14 @@ void sulit_value_mode(food_item *item_food, int food_num, float sulit_value){
 
 
 
-
-void input_mode(FILE *fp, FILE *fp1){
+/*
+void input_mode(food_item *, FILE *fp1){
 	int option = 0;
 	food_item* history_ptr = file_reading(fp1, &trash);
 	food_item* data_ptr = file_reading(fp, &food_num);
+}
 
-
-
+*/
     while (1) {
         print_menu3();
         if (scanf("%d%c", &option, &extra) != 2 || extra != '\n') {
@@ -411,4 +351,73 @@ void new_item(food_item *add, food_item *add_history){
 		}
 	}
 */
+
+
+void sorting_algo_rating(food_item *tb_sorted, int num_items) 
+{
+    int i, j;
+    food_item temp;
+
+    for (i = 0; i < num_items - 1; i++) {
+        for (j = 0; j < num_items - i - 1; j++) {
+            // Compare ratings and swap if needed
+            if (tb_sorted[j].rating > tb_sorted[j + 1].rating) {
+                temp = tb_sorted[j];
+                tb_sorted[j] = tb_sorted[j + 1];
+                tb_sorted[j + 1] = temp;
+            }
+        }
+    }
+}
+
+void sorting_algo_sulit(food_item *tb_sorted, int num_items) 
+{
+    int i, j;
+    food_item temp;
+
+    for (i = 0; i < num_items - 1; i++) {
+        for (j = 0; j < num_items - i - 1; j++) {
+            // Compare sulit value and swap if needed
+            if (tb_sorted[j].sulit_value > tb_sorted[j + 1].sulit_value) {
+                temp = tb_sorted[j];
+                tb_sorted[j] = tb_sorted[j + 1];
+                tb_sorted[j + 1] = temp;
+            }
+        }
+    }
+}
+
+
+void print_menu(void) {
+	printf("\nWhat would you like to do? [ENTER THE NUMBER]\n");
+	printf("\t1. Peruse Mode\n");	
+	printf("\t2. Suggest Mode\n");
+	printf("\t3. Input Mode\n");
+	printf("\t4. Exit\n");
+	return;
+}
+void print_menu2(void) {
+	printf("\nFilter the food items based on: [ENTER THE NUMBER]\n");
+	printf("\t1. Budget\n");	
+	printf("\t2. Ratings\n");
+	printf("\t3. Sulit Value\n");
+	printf("\t4. Return to Home.\n");
+	return;
+}
+
+void print_menu3(void) {
+	printf("\nWhat would you like to enter?\n");
+	printf("\t1. Existing food item.\n");	
+	printf("\t2. New food item\n");
+	printf("\t3. Return to Home\n");
+	return;
+}
+
+
+
+
+
+
+
+
 
