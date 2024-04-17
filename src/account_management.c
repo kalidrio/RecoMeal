@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <string.h>
 #include "account_management.h"
 #include "structs.h"
@@ -37,4 +38,37 @@ void deleteAccount(User* account, User* head) {
 
     prev_node->next = account->next;
     free(account);
+
+    deleteAccountFromDB(account, head);
+}
+
+void deleteAccountFromDB(User* account, User* head) {
+    char buffer[MAXLEN];
+    int fscanf_retvalue;
+    FILE *accounts_file;
+    FILE *new_file;
+
+    fopen("DB/accounts.txt", "rt");
+    fopen("DB/new_accounts.txt", "wt");
+
+    while (1) {
+        fscanf_retvalue = fscanf(accounts_file, "%s", buffer);
+
+        // Skip writing username and password on username match
+        if (strcmp(buffer, account->username) == 0) {
+            fscanf(accounts_file, "%s", buffer);
+            continue;
+        }
+        if (fscanf_retvalue == EOF) {
+            continue;
+        }
+
+        fprintf(new_file, "%s", buffer);
+    }
+
+    fclose(accounts_file);
+    fclose(new_file);
+
+    remove("DB/accounts.txt");
+    rename("DB/new_accounts.txt", "DB/accounts.txt");
 }
