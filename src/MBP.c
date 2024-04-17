@@ -14,7 +14,7 @@ void print_menu3(void);
 
 
 //suggest mode
-void suggest_mode(FILE *fp, FILE *fp1);
+void suggest_mode(food_item *data_ptr, food_item *history_ptr, int food_num);
 void budget_mode(food_item *fp, int food_num, float budgets);
 void rating_mode(food_item *fp, int food_num, float rating);
 void sulit_value_mode(food_item *fp, int food_num, float sulit_value);
