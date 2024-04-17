@@ -1,17 +1,11 @@
-#include<stdio.h>
-#include<stdlib.h>
-#define MAX 10000
 
-typedef struct 
-{
-    int id;
-    char food_name[100];
-    float price;
-    float rating;
-    float sulit_value;
-}food_item;
-
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <errno.h>
+#include "MBP.h"
+  
+  
 void print_menu(void);
 void print_menu2(void);
 void print_menu3(void);
@@ -32,32 +26,114 @@ void sorting_algo_sulit(food_item *items, int num_items);
 void input_mode(FILE *fp, FILE *fp1);
 void existing(food_item *add, food_item *add_history);
 void new_item(food_item *add, food_item *add_history);
+  
 
+  
+  
 
+void read_data(FILE* from_catalogue, food_item* catalogue) {
+	int i = 0;
+	int result;
+	while ((result = fscanf(from_catalogue, "%d %s %f %f %f",
+				      &catalogue[i].ID,
+				      catalogue[i].name,
+				      &catalogue[i].price,
+				      &catalogue[i].rating,
+				      &catalogue[i].sulit_value)) == 5) {
+        	i++;
+	}
+	if (result != EOF && result != 5) { // error handling
+		fprintf(stderr, "Error reading data.\n");
+	}
+
+	if (ferror(from_catalogue)) { // more detailed error msg
+		perror("Error: \n");
+	}
+}
+
+void print_Menu(void) {
+	printf("\nWhat would you like to do? [ENTER THE NUMBER]\n");
+	printf("\t1. Peruse Mode\n");
+	printf("\t2. Suggest Mode\n");
+	printf("\t3. Input Mode\n");
+	printf("\t4. Exit\n");
+	printf("\nChoice: ");
+}
+
+void peruse(FILE* from_catalogue, food_item* catalogue, int* errPtr) {
+	for (int i = 0; i < 13; i++) {
+		printf("\t%03d   %s\n", catalogue[i].ID, catalogue[i].name);
+	}
+
+	int option;
+	char trail; // dummy var to catch trailing characters
+	int result;
+
+	printf("\nEnter ID# for more info or 0 to exit: ");
+	while ((result = scanf("%d%c", &option, &trail)) != EOF) {
+		if (result != 2 || trail != '\n') {
+			printf("\nProgram exited with error: ");
+			printf("\n\tDetected non-numeric input.\n");
+			*errPtr = 1;
+			return;
+		}
+
+		if (option < 0 || option > 13) { 
+			printf("\nPlease enter an ID#(1 - 13): ");
+			continue;
+
+		} else 	if (option == 0) return;
+
+		printf("\n Dish Name: %s\n", catalogue[option-1].name);
+		printf("     Price: Php %.2f\n", catalogue[option-1].price);
+		printf("    Rating: %.2f/10\n", catalogue[option-1].rating);
+		printf("Sulit-ness: %.2f\n", catalogue[option-1].sulit_value);
+
+		printf("\nEnter ID# for more info or 0 to exit: ");
+	}
+
+	printf("Ctrl-D(Program end).\n");
+	*errPtr = 1;
+	return;
+
+}
 
 int S_init(void) {
 	int option = 0;
-	char extra;  // dummy var to catch trailing input
-	FILE *fp;
-	FILE *fp1;
+	char trail; // dummy var to catch trailing characters
+	int error = 0;
+	int* errPtr = &error;
 
+	FILE* from_catalogue = fopen("../DB/catalogue.txt", "r");
+	if (!from_catalogue) {
+		printf("Error opening catalogue.\n");
+		return 1;
+	}
 
-	fp = fopen("../DB/food_items.txt", "r+");  //opens the file for reading and writing
-	fp1 = fopen("../DB/purchase_history.txt", "r+");
-	
-	while (option != 4) {
-		print_menu();
-		// extra catches trailing non-numeric characters
-		if (scanf("%d%c", &option, &extra) != 2 && extra != '\n')
-	       	{
-			printf("\nProgram exited with error code [01]:\n");
-			printf("Input was not a single digit integer.\n");      
+	food_item* catalogue = malloc(sizeof(food_item) * 13);
+	if (!catalogue) {
+		printf("Memory allocation failed.\n");
+		return 1;
+	}
+
+	read_data(from_catalogue, catalogue);
+
+	while (option != 4 && !error) {
+		if (!error) {
+			print_Menu();
+		}
+		if (scanf("%d%c", &option, &trail) != 2 || trail != '\n') {
+			printf("\nProgram exited with error: ");
+			printf("\n\tDetected non-numeric input.\n");
+			fclose(from_catalogue);
+			free(catalogue);
 			return 1;
 		}
 		else {
+			printf("\n");
 			switch(option){
 				case 1:
-					//peruse_mode(fp);
+					peruse(from_catalogue, catalogue, errPtr);
 					break;
 				case 2:
 					suggest_mode(fp, fp1);
@@ -66,16 +142,18 @@ int S_init(void) {
 					input_mode(fp, fp1);
 					break;
 				case 4:
-					printf("\nProgram exited successfully.\n");
-					return 0;
+					printf("Program exited successfully.\n");
+					break;
 				default:
-					printf("\nPlease choose a value within 1 to 4\n");
+					printf("Please choose a value within 1 to 4\n");
 					break;
 			}
 		} 
 	}	
+	fclose(from_catalogue);
+	free(catalogue);
+	return 0;
 }
-
 
 //functions to read food_items
 food_item* file_reading(FILE *file, int *food_num) 
@@ -142,10 +220,6 @@ void sorting_algo_sulit(food_item *tb_sorted, int num_items)
 }
 
 
-
-
-
-
 void print_menu(void) {
 	printf("\nWhat would you like to do? [ENTER THE NUMBER]\n");
 	printf("\t1. Peruse Mode\n");	
@@ -180,8 +254,7 @@ void suggest_mode(FILE *fp, FILE *fp1){
 	float budgets, rating, sulit_value;
 	int food_num, trash;
 
-	//will just be using pointers and not using structures every time.
-	food_item* history_ptr = file_reading(fp1, &trash);
+	//will just be using pointers and not using structures every time.file_reading(fp1, &trash);
 	food_item* data_ptr = file_reading(fp, &food_num);
 	printf("\n-----------SUGGEST MODE-----------\n");
 
@@ -307,10 +380,10 @@ void input_mode(FILE *fp, FILE *fp1){
 		else {
             switch(option) {
                 case 1:
-                    existing(data_ptr, history_ptr);	//existing food item		
+                    //existing(data_ptr, history_ptr);	//existing food item		
                     break;
                 case 2:
-                    new_item(data_ptr, history_ptr); //rating mode
+                    //new_item(data_ptr, history_ptr); //rating mode
                     break;
                 case 3:
 					printf("\nReturning to Home...\n"); //exit
@@ -326,10 +399,8 @@ void input_mode(FILE *fp, FILE *fp1){
 }
 	
 
-void existing(food_item *add, food_item *add_history){
-
-
-
+/*void existing(food_item *add, food_item *add_history){
+return;
 }
 
 
@@ -337,4 +408,7 @@ void existing(food_item *add, food_item *add_history){
 
 void new_item(food_item *add, food_item *add_history){
 
-}
+		}
+	}
+*/
+
