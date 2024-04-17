@@ -3,7 +3,6 @@
 #include <string.h>
 #include "structs.h"
 #include "login.h"
-#define MAXLEN 1000
 
 // Parses /DB and creates a linked list of User structs
 // NOTE: The head of the struct does not represent a user and should be skipped when looping through the list
