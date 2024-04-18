@@ -48,7 +48,8 @@ User* parseDB() {
     return head;
 }
 
-void mainMenu() {
+User* mainMenu(User* user_list) {
+    User* user;
     int choice; 
 
     while(1){
@@ -56,16 +57,16 @@ void mainMenu() {
         printf("(2) Sign Up\n");
         printf("(3) Exit\n\n");
 
-        printf("Choice: ");
+        printf("Please input the number of your choice: ");
 
         scanf("%d", &choice);
 
         switch(choice){
             case 1:
-                loginPage();
-                continue;
+                loginPage(user_list)
+                }
             case 2:
-                signupPage();
+                signupPage(user_list);
                 continue;
             case 3:
                 return;
@@ -76,25 +77,50 @@ void mainMenu() {
     }
 }
 
-User* loginPage() {
+User* loginPage(User* user_list) {
     char username[MAXLEN];
     char password[MAXLEN];
+    User* curr_user = user_list->next;
 
     printf("Username: ");
     scanf("%s", username);
     printf("Password: ");
     scanf("%s", password);
 
+    while(1){
+        if (curr_user == NULL){
+            printf("\nAccount does not exist.");
+            break;
+        }
+
+        if(strcmp(username, curr_user->username) == 0){
+            if(strcmp(password, curr_user->next) == 0){
+                return curr_user;
+            }
+            else{
+                printf("\nWrong password.");
+                break;
+            }
+        }
+        curr_user = curr_user->next;
+    }
+
+    return NULL;
 }
 
-void signupPage() {
+void signupPage(User* user_list) {
     char username[MAXLEN];
     char password[MAXLEN];
+    User* curr_user = user_list->next;
 
-    printf("Username: ");
+    printf("Enter a username: ");
     scanf("%s", username);
-    printf("Password: ");
+    printf("Enter a password: ");
     scanf("%s", password);
+
+
+
+    createAccount(username, password, user_list);
 }
 
 // Creates User struct and links it to existing user list
