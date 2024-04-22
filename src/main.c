@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "MBP.h"
+#include "simple.h"
 
 int main() {
 	S_init();

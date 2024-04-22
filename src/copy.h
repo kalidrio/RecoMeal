@@ -4,10 +4,10 @@ typedef struct {
     float price;
     float rating;
     float sulit_value;
-} meal;
+} food_item;
 
 // User defined functions
-void read_data(FILE *from_catalogue, meal catalogueArr, int* count);
+void read_data(FILE *from_catalogue, food_item* catalogue, int* food_num);
 void print_modes(void);
 void peruse(food_item* catalogue, int* errPtr);
 
