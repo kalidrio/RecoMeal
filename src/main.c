@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "simple.h"
+#include "single.h"
 
 int main() {
 	S_init();
