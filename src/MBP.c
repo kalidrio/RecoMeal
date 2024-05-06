@@ -93,16 +93,16 @@ int S_init(void) {
 
 void print_purchase(purchase* historyArr, int items) {
 	printf("\n\nYou've recently bought the following:\n");
-	printf("---------------------------------------------\n");
-	printf("|          MEAL         | PRICE | SULITNESS |\n");
-	printf("|-----------------------|-------|-----------|\n");
+	printf("-----------------------------------------------\n");
+	printf("|          MEAL         |  PRICE  | SULITNESS |\n");
+	printf("|-----------------------|---------|-----------|\n");
 	for (int i = 0; i < items; i++) {
-		printf("|  %-20s | %5.2f |   %5.2f   |\n", 
+		printf("|  %-20s |  %5.2f  |   %5.2f   |\n", 
 				historyArr[i].name,
                 historyArr[i].price,
 				historyArr[i].sulitness);
 	} 
-	printf("---------------------------------------------\n\n");
+	printf("-----------------------------------------------\n\n");
 
 }
 
