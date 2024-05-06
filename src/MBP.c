@@ -150,8 +150,8 @@ void read_data(FILE* from_meals, meal* catalogueArr) {
 							catalogueArr[i].main_course,
 							&catalogueArr[i].Mprice,
 
-							catalogueArr[i].dessert,
-							&catalogueArr[i].Dprice,
+							catalogueArr[i].side,
+							&catalogueArr[i].Sprice,
 
 							catalogueArr[i].beverage,
 							&catalogueArr[i].Bprice,
@@ -252,14 +252,14 @@ void budget_it(meal* catalogueArr, int items, float budget, FILE* to_history) {
     // Printing food items within budget sorted by sulit value in a table
     printf("\nFood items within your budget sorted by sulit value:\n\n");
     printf("--------------------------------------------------------------------------------------------------------------------------------\n");
-    printf("|  ID  |          Main Course       | M. Price | Dessert       | D. Price | Beverage      | B. Price | Total Price | Sulitness |\n");
+    printf("|  ID  |          Main Course       | M. Price | Side Dish     | S. Price | Beverage      | B. Price | Total Price | Sulitness |\n");
     printf("|------|----------------------------|----------|---------------|----------|---------------|----------|-------------|-----------|\n");
 
     for (i = 0; i < items; i++) {
         if (temp[i].total_price <= budget) {
             printf("| %03d  | %-25s  | ₱%-7.2f | %-13s | ₱%-7.2f | %-13s | $%-7.2f | $%-10.2f | %-9.2f |\n",
                    temp[i].ID, temp[i].main_course, temp[i].Mprice,
-                   temp[i].dessert, temp[i].Dprice,
+                   temp[i].side, temp[i].Sprice,
                    temp[i].beverage, temp[i].Bprice,
                    temp[i].total_price, temp[i].sulitness);
         }

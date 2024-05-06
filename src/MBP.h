@@ -4,8 +4,8 @@ typedef struct {
 	int ID;
 	char main_course[stdlen];
 	float Mprice;
-	char dessert[stdlen];
-	float Dprice;
+	char side[stdlen];
+	float Sprice;
 	char beverage[stdlen];
 	float Bprice;
 	float total_price;
