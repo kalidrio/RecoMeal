@@ -3,21 +3,6 @@
 #include "MBP.h"
 #define buflen 256
 
-
-
-
-/**
- * @brief Initializes the RecoMeal program by reading data from files,
- *        printing recent purchase history, and suggesting meals based on history.
- * 
- * This function initializes the RecoMeal program by opening and reading data
- * from the meals.txt and history.txt files. It then populates arrays of meal
- * and purchase structures accordingly. After printing the recent purchase history,
- * it suggests meals to the user based on their budget and past purchase history.
- * @param char filename is used here as a pointer to the name of user
- * @return int Returns 0 on successful initialization, 1 otherwise.
- */
-
 int S_init(char* filename) {
 
     char line[buflen];
