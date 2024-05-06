@@ -23,7 +23,7 @@ int S_init(char* filename) {
 
     FILE* history = fopen(directory, "r+");
     if (history == NULL) {
-        printf("Error opening output file.\n");
+        printf("Error opening history file.\n");
         fclose(from_meals);
         return 1;
     }
@@ -44,15 +44,15 @@ int S_init(char* filename) {
         history_items++; // count # of items(based on \n chars) in history.txt
     } rewind(history); // Rewind file pointer to the beginning
 
-    if (history_items <= 1) { // purchase history file is empty
-			      // <= 1 accounts for cases where the file
-			      // is mostly empty aside from a single \n char
-	printf("No recent purchases. Proceeding to load program...\n\n");
-    }	
     purchase historyArr[history_items];
     read_history(history, historyArr); 
-    print_purchase(historyArr, history_items);
 
+    if (history_items <= 1) { // <= 1 accounts for cases where the file
+			      // is mostly empty aside from a single \n char
+	printf("\nNo recent purchases. Proceeding to load program...\n\n");
+    } else {
+    	print_purchase(historyArr, history_items);
+    }
 //dunno if u want to continue this kasi mababago flowchart
     printf("What would you like to do?(Ctrl-D to Exit)\n");
     printf("\t1. Suggest Mode\n\t2. User Settings\n\t3. Exit");
