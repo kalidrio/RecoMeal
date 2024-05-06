@@ -23,7 +23,7 @@ void changePass(User* account) {
     printf("Password changed successfully");
 }
 
-// No need to pass *head, as head will never be deleted
+// No need to pass **head, as head will never be deleted
 void deleteAccount(User* account, User* head) {
     User* prev_node;
 
