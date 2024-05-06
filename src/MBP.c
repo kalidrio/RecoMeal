@@ -14,7 +14,7 @@
  * from the meals.txt and history.txt files. It then populates arrays of meal
  * and purchase structures accordingly. After printing the recent purchase history,
  * it suggests meals to the user based on their budget and past purchase history.
- * 
+ * @param char filename is used here as a pointer to the name of user
  * @return int Returns 0 on successful initialization, 1 otherwise.
  */
 
@@ -26,8 +26,8 @@ int S_init(char* filename) {
     long size_toCheck = 0;
 
     char directory[] = "../DB/";
-    strcat(filename, directory);
-    strcat(filename, ".txt");
+    strcat(directory, filename);
+    strcat(directory, "_history.txt");
 
     FILE* from_meals = fopen("../DB/meals.txt", "r");
     if (from_meals == NULL) {
@@ -35,7 +35,7 @@ int S_init(char* filename) {
         return 1;
     }
 
-    FILE* history = fopen(filename, "r+");
+    FILE* history = fopen(directory, "r+");
     if (history == NULL) {
         printf("Error opening output file.\n");
         fclose(from_meals);
@@ -310,7 +310,8 @@ void budget_it(meal* catalogueArr, int items, float budget, FILE* to_history) {
 void inputMode(FILE* to_history) {
     rewind(to_history); //places the pointer at the start;
     int items = 0; // Initialize items to 0
-    char line[buflen];
+    int result;
+    char line[buflen], trail;
     while (fgets(line, sizeof(line), to_history) != NULL) {
         items++; // count # of items and places the pointer at the end of the file
     }
@@ -329,17 +330,46 @@ void inputMode(FILE* to_history) {
 
     purchase temp;
 
-    printf("Please enter the Name of the Meal: ");
-    scanf("%s", temp.name);
+    printf("Please enter the name of the Meal: ");
+    while((result = scanf(" %s%c", temp.name, &trail)) != EOF) {
+        if (result != 2 || trail != '\n') {
+            printf("\nPlease enter again.");
+            clear_buffer();
+            continue;
+        }
+        else{
+            break;
+        }
+    }
     printf("\n");
+
 
     printf("Please enter the Price of the Meal: ");
-    scanf("%f", &temp.price);
+        while((result = scanf(" %f%c", temp.price, &trail)) != EOF) {
+        if (result != 2 || trail != '\n') {
+            printf("\nPlease enter again.");
+            clear_buffer();
+            continue;
+        }
+        else{
+            break;
+        }
     printf("\n");
+    }
 
     printf("Please enter the Sulitness of the Meal (1-10): ");
-    scanf("%f", &temp.sulitness);
+        while((result = scanf(" %f%c", temp.sulitness, &trail)) != EOF) {
+        if (result != 2 || trail != '\n') {
+            printf("\nPlease enter again. ");
+            clear_buffer();
+            continue;
+        }
+        else{
+            break;
+        }
+    }
     printf("\n");
+
 
     rewind(to_history);
     currHistory[0] = temp;

@@ -18,10 +18,12 @@ typedef struct {
 	float sulitness;
 } purchase;
 
+int S_init(char* filename);
 
-int S_init(void);
 
-void clear_buffer(char* filename);
+
+
+void clear_buffer(void);
 
 void read_data(FILE* from_meals, meal* catalogueArr);
 /* inputfile has fixed size of 15, size is therefore unneccessary.
