@@ -18,7 +18,7 @@
  * @return int Returns 0 on successful initialization, 1 otherwise.
  */
 
-int S_init(char filename[]) {
+int S_init(char* filename) {
 
     char line[buflen];
     int items = 0;
