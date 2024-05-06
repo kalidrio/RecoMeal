@@ -63,8 +63,8 @@ User* mainMenu(User* user_list) {
 
         switch(choice){
             case 1:
-                loginPage(user_list)
-                }
+                user = loginPage(user_list);
+                return user;
             case 2:
                 signupPage(user_list);
                 continue;
