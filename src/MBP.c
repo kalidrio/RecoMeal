@@ -34,26 +34,22 @@ int S_init(char* filename) {
 
     while (fgets(line, sizeof(line), from_meals) != NULL) {
         items++; // count # of items in meals.txt
-    }
-	rewind(from_meals);
-    /*creates an array of structs*/
-    meal catalogueArr[items]; 		
-    /*reads the data from the file and puts them in the array.*/
-    read_data(from_meals, catalogueArr);
+    } rewind(from_meals); // return file ptr to the 
+			  // start of file
 
+    meal catalogueArr[items]; // create an array of structs		
+    read_data(from_meals, catalogueArr); // read and store data to struct array
 
     while (fgets(line, sizeof(line), history) != NULL) {
         history_items++; // count # of items in history.txt
-    }
-	rewind(history); // Rewind file pointer to the beginning
+    } rewind(history); // Rewind file pointer to the beginning
 
-
-	if (history_items == 1) { 			// purchase history file is empty
-		printf("No recent purchases. Proceeding to load program...\n\n");
-	}	
+    if (history_items == 1) { // purchase history file is empty
+	printf("No recent purchases. Proceeding to load program...\n\n");
+    }	
     purchase historyArr[history_items];
     read_history(history, historyArr); 
-	print_purchase(historyArr, history_items);
+    print_purchase(historyArr, history_items);
 
 //dunno if u want to continue this kasi mababago flowchart
     printf("What would you like to do?(Ctrl-D to Exit)\n");
@@ -92,18 +88,6 @@ int S_init(char* filename) {
 
     return 0;
 }
-
-
-/**
- * @brief Prints the recent purchase history.
- * 
- * This function takes an array of purchase structures representing recent purchases
- * and the number of items in the historyArr array. It prints the recent purchase
- * history in a formatted table.
- * 
- * @param historyArr Pointer to the array of purchase structures.
- * @param items Number of items in the historyArr array.
- */
 
 void print_purchase(purchase* historyArr, int items) {
 	printf("\n\nYou've recently bought the following:\n");
