@@ -5,21 +5,81 @@
 
 void changeUser(User* account) {
     char new_username[MAXLEN];
+    char buffer[MAXLEN];
+    int fscanf_retvalue;
+    FILE *accounts_file;
+    FILE *new_file;
 
     printf("Input new username: ");
     scanf("%s", new_username);
 
     strcpy(account->username, new_username);
+
+    accounts_file = fopen("../DB/accounts.txt", "rt");
+    new_file = fopen("../DB/new_accounts.txt", "wt");
+
+    while (1) {
+        fscanf_retvalue = fscanf(accounts_file, "%s", buffer);
+
+        // Write new username on past username match
+        if (strcmp(buffer, account->username) == 0) {
+            fprintf(new_file, "%s\n", new_username);
+            continue;
+        }
+        if (fscanf_retvalue == EOF) {
+            break;
+        }
+
+        fprintf(new_file, "%s\n", buffer);
+    }
+
+    fclose(accounts_file);
+    fclose(new_file);
+
+    remove("../DB/accounts.txt");
+    rename("../DB/new_accounts.txt", "../DB/accounts.txt");
+
     printf("Username changed successfully");
 }
 
 void changePass(User* account) {
     char new_password[MAXLEN];
+    char buffer[MAXLEN];
+    int fscanf_retvalue;
+    FILE *accounts_file;
+    FILE *new_file;
 
     printf("Input new password: ");
     scanf("%s", new_password);
 
     strcpy(account->username, new_password);
+
+    accounts_file = fopen("../DB/accounts.txt", "rt");
+    new_file = fopen("../DB/new_accounts.txt", "wt");
+
+    while (1) {
+        fscanf_retvalue = fscanf(accounts_file, "%s", buffer);
+
+        // Write new password on username match
+        if (strcmp(buffer, account->username) == 0) {
+            fprintf(new_file, "%s\n", buffer);
+            fscanf(accounts_file, "%s", buffer);
+            fprintf(new_file, "%s\n", new_password);
+            continue;
+        }
+        if (fscanf_retvalue == EOF) {
+            break;
+        }
+
+        fprintf(new_file, "%s\n", buffer);
+    }
+
+    fclose(accounts_file);
+    fclose(new_file);
+
+    remove("../DB/accounts.txt");
+    rename("../DB/new_accounts.txt", "../DB/accounts.txt");
+
     printf("Password changed successfully");
 }
 
@@ -48,8 +108,8 @@ void deleteAccountFromDB(User* account, User* head) {
     FILE *accounts_file;
     FILE *new_file;
 
-    fopen("../DB/accounts.txt", "rt");
-    fopen("../DB/new_accounts.txt", "wt");
+    accounts_file = fopen("../DB/accounts.txt", "rt");
+    new_file = fopen("../DB/new_accounts.txt", "wt");
 
     while (1) {
         fscanf_retvalue = fscanf(accounts_file, "%s", buffer);
@@ -60,10 +120,10 @@ void deleteAccountFromDB(User* account, User* head) {
             continue;
         }
         if (fscanf_retvalue == EOF) {
-            continue;
+            break;
         }
 
-        fprintf(new_file, "%s", buffer);
+        fprintf(new_file, "%s\n", buffer);
     }
 
     fclose(accounts_file);
