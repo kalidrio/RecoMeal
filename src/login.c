@@ -17,7 +17,7 @@ User* parseDB() {
     char password[MAXLEN];
     int counter = 1;
 
-    ifp = fopen("DB/accounts.txt", "rt");
+    ifp = fopen("../DB/accounts.txt", "rt");
 
     head = (User *) malloc(sizeof(User));
 
@@ -153,7 +153,7 @@ void createAccount(char username[], char password[], User* user_list) {
 void saveAccountToDB(User account) {
     FILE *accounts_file;
 
-    accounts_file = fopen("DB/accounts.txt", "at");
+    accounts_file = fopen("../DB/accounts.txt", "at");
     fprintf(accounts_file, "%s\n", account.username);
     fprintf(accounts_file, "%s\n", account.password);
 

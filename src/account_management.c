@@ -48,8 +48,8 @@ void deleteAccountFromDB(User* account, User* head) {
     FILE *accounts_file;
     FILE *new_file;
 
-    fopen("DB/accounts.txt", "rt");
-    fopen("DB/new_accounts.txt", "wt");
+    fopen("../DB/accounts.txt", "rt");
+    fopen("../DB/new_accounts.txt", "wt");
 
     while (1) {
         fscanf_retvalue = fscanf(accounts_file, "%s", buffer);
