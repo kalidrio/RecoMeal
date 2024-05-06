@@ -1,6 +1,6 @@
 User* parseDB();
 
-void mainMenu();
+User* mainMenu();
 
 User* loginPage(User* user_list);
 

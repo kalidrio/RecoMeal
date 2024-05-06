@@ -76,7 +76,7 @@ User* mainMenu(User* user_list) {
                 signupPage(user_list);
                 continue;
             case 3:
-                return;
+                return NULL;
             default:
                 printf("\nInvalid choice. Please choose one of the options above.");
                 continue;
@@ -101,7 +101,7 @@ User* loginPage(User* user_list) {
         }
 
         if(strcmp(username, curr_user->username) == 0){
-            if(strcmp(password, curr_user->next) == 0){
+            if(strcmp(password, curr_user->password) == 0){
                 return curr_user;
             }
             else{
