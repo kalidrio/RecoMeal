@@ -131,10 +131,14 @@ void signupPage(User* user_list) {
 }
 
 // Creates User struct and links it to existing user list
+// Also creates a text file for storing purchase history in the format of (username)_history.txt
 void createAccount(char username[], char password[], User* user_list) {
     User *account;
+    char filename[MAXLEN];
+    FILE *purchase_history;
     account = (User *) malloc(sizeof(User));
 
+    // Create account
     strcpy(account->username, username);
     strcpy(account->password, password);
     account->next = NULL;
@@ -146,6 +150,11 @@ void createAccount(char username[], char password[], User* user_list) {
     }
 
     user_list->next = account;
+
+    // Create txt file
+    strcpy(filename, account->username);
+    strcat(filename, "_history.txt");
+    purchase_history = fopen(filename, "wt");
 }
 
 // Saves new user accounts to the DB
