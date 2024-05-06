@@ -75,8 +75,9 @@ User* mainMenu(User* user_list) {
 
         switch(choice){
             case 1:
-                while (user == NULL) {
-                    user = loginPage(user_list);
+                user = loginPage(user_list);
+                if (user == NULL) {
+                    continue;
                 }
                 return user;
             case 2:
@@ -126,30 +127,27 @@ void signupPage(User* user_list) {
     char username[MAXLEN];
     char password[MAXLEN];
 
-    while (1) {
-        User* curr_user = user_list;
-        int flag = 1; // flag for creating account
-        
-        printf("\nEnter a username: ");
-        scanf("%s", username);
-        printf("Enter a password: ");
-        scanf("%s", password);
+    User* curr_user = user_list;
+    int flag = 1; // flag for creating account
+    
+    printf("\nEnter a username: ");
+    scanf("%s", username);
+    printf("Enter a password: ");
+    scanf("%s", password);
 
-        while (curr_user != NULL) {
-            if (strcmp(curr_user->username, username) == 0) {
-                flag = 0;
-            }
-            curr_user = curr_user->next;
+    while (curr_user != NULL) {
+        if (strcmp(curr_user->username, username) == 0) {
+            flag = 0;
         }
-        
-        if (flag == 1) {
-            createAccount(username, password, user_list);
-            printf("\n\n");
-            break;
-        }
-        else {
-            printf("\nUsername already exists.\n");
-        }
+        curr_user = curr_user->next;
+    }
+    
+    if (flag == 1) {
+        createAccount(username, password, user_list);
+        printf("\n\n");
+    }
+    else {
+        printf("\nUsername already exists.\n");
     }
 }
 
@@ -191,16 +189,4 @@ void saveAccountToDB(User account) {
     fprintf(accounts_file, "\n%s", account.password);
 
     fclose(accounts_file);
-}
-
-int main () {
-    User *user_list;
-    User *user;
-
-    user_list = parseDB();
-    user_list = user_list->next;
-
-    user = mainMenu(user_list);
-
-    return 0;
 }
