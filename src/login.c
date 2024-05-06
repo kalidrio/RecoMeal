@@ -54,7 +54,7 @@ User* parseDB() {
 }
 
 User* mainMenu(User* user_list) {
-    User* user;
+    User* user = NULL;
     int choice; 
 
     while(1){
@@ -68,8 +68,10 @@ User* mainMenu(User* user_list) {
 
         switch(choice){
             case 1:
-                loginPage(user_list)
+                while (user == NULL) {
+                    user = loginPage(user_list);
                 }
+                return user;
             case 2:
                 signupPage(user_list);
                 continue;
