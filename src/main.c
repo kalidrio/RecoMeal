@@ -12,6 +12,10 @@ int main() {
 
 	user=mainMenu(user_list);
 	
+    if (user == NULL) {
+        return 0;
+    }
+
 	S_init(user->username);
 	return 0;
 }
