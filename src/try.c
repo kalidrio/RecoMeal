@@ -10,6 +10,8 @@ int S_init(void) {
     int history_items = 0;
     long size_toCheck = 0;
 
+
+
     FILE* from_meals = fopen("../DB/meals.txt", "r");
     if (from_meals == NULL) {
         printf("Error opening input file.\n");
@@ -113,24 +115,32 @@ void suggest(meal* catalogueArr, int items) {
 	float budget;
 	char trail;
 	int result;
+    int returnFlag = 0; // to return from budgetit function
+    int* returnPtr = &returnFlag; 
 
 	printf("Program running, press Ctrl-D to exit...\n\n");
 	printf("\nWhat is your budget for today's meal? PHP ");
-	while((result = scanf("%f%c", &budget, &trail)) != EOF) {
+	while((result = scanf("%f%c", &budget, &trail)) != EOF && returnFlag == 0) {
 		if (result != 2 || trail != '\n') {
 			printf("\nPlease enter your budget correctly. PHP ");
 			clear_buffer();
 			continue;
 		}
 		else {
-			budget_it(catalogueArr, items, budget);
 			printf("With a budget of PHP %.2f, you can have the ff:\n", budget);
-
-				
+			budget_it(catalogueArr, items, budget, returnPtr);
+            
 		}
 	}
 	printf("\n\nCtrl-D: End of program. Thank you for using RecoMeal!\n");
 }
+
+void clear_buffer(void) { 				// to avoid infinite loops
+	while ((getchar()) != '\n'); 
+}
+
+
+
 
 
 /**
@@ -145,7 +155,7 @@ void suggest(meal* catalogueArr, int items) {
  * @param items Number of items in the catalogueArr array.
  * @param budget The budget for filtering food items.
  */
-void budget_it(meal* catalogueArr, int items, float budget) {
+void budget_it(meal* catalogueArr, int items, float budget, int* returnPTR) {
     int i;
 
     // Creating a new array of structures to copy the catalogue
@@ -170,13 +180,13 @@ void budget_it(meal* catalogueArr, int items, float budget) {
 
     // Printing food items within budget sorted by sulit value in a table
     printf("\nFood items within your budget sorted by sulit value:\n\n");
-    printf("----------------------------------------------------------------------------------------------------------------------\n");
-    printf("| ID | Main Course      | M. Price | Dessert       | D. Price | Beverage      | B. Price | Total Price | Sulitness |\n");
-    printf("|----|------------------|----------|---------------|----------|---------------|----------|-------------|-----------|\n");
+    printf("--------------------------------------------------------------------------------------------------------------------------------\n");
+    printf("|  ID  |          Main Course       | M. Price | Dessert       | D. Price | Beverage      | B. Price | Total Price | Sulitness |\n");
+    printf("|------|----------------------------|----------|---------------|----------|---------------|----------|-------------|-----------|\n");
 
     for (i = 0; i < items; i++) {
         if (temp[i].total_price <= budget) {
-            printf("| %-2d | %-15s | $%-7.2f | %-13s | $%-7.2f | %-13s | $%-7.2f | $%-10.2f | %-9.2f |\n",
+            printf("| %03d  | %-25s  | ₱%-7.2f | %-13s | ₱%-7.2f | %-13s | $%-7.2f | $%-10.2f | %-9.2f |\n",
                    temp[i].ID, temp[i].main_course, temp[i].Mprice,
                    temp[i].dessert, temp[i].Dprice,
                    temp[i].beverage, temp[i].Bprice,
@@ -184,6 +194,36 @@ void budget_it(meal* catalogueArr, int items, float budget) {
         }
     }
 
-    printf("----------------------------------------------------------------------------------------------------------------------\n");
-}
+    printf("--------------------------------------------------------------------------------------------------------------------------------\n");
 
+
+    printf("Would you like to record a purchase? Y/N.\n");
+
+    int result;
+    char trail, choice;
+    while((result = scanf(" %c%c", &choice, &trail)) != EOF) {
+        if (result != 2 || trail != '\n') {
+            printf("\nPlease enter Y or N.");
+            clear_buffer();
+            continue;
+        }
+        else {
+            switch(choice) {
+                case 'y':
+                case 'Y':
+                    //inputMode();
+                    break;
+                case 'n':
+                case 'N':
+                    *returnPTR = 1;
+                    break;
+                default: 
+                    printf("\nPlease enter Y or N.");
+                    clear_buffer();
+                    continue;
+            }
+            // Break out of the while loop when the input is processed
+            break;
+        }
+    }
+}

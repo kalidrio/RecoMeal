@@ -33,4 +33,6 @@ void read_history(FILE* from_history, purchase* historyArr);
 void print_purchase(purchase* historyArr, int items);
 
 void suggest(meal* catalogueArr, int count);	
+void budget_it(meal* catalogueArr, int items, float budget, int* returnPTR);
+
 
