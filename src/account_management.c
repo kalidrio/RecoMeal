@@ -69,6 +69,6 @@ void deleteAccountFromDB(User* account, User* head) {
     fclose(accounts_file);
     fclose(new_file);
 
-    remove("DB/accounts.txt");
-    rename("DB/new_accounts.txt", "DB/accounts.txt");
+    remove("../DB/accounts.txt");
+    rename("../DB/new_accounts.txt", "../DB/accounts.txt");
 }
