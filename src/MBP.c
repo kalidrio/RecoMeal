@@ -18,14 +18,16 @@
  * @return int Returns 0 on successful initialization, 1 otherwise.
  */
 
-int S_init(void) {
+int S_init(char filename[]) {
 
     char line[buflen];
     int items = 0;
     int history_items = 0;
     long size_toCheck = 0;
 
-
+    char directory[] = "../DB/";
+    strcat(filename, directory);
+    strcat(filename, ".txt");
 
     FILE* from_meals = fopen("../DB/meals.txt", "r");
     if (from_meals == NULL) {
@@ -33,7 +35,7 @@ int S_init(void) {
         return 1;
     }
 
-    FILE* history = fopen("../DB/history.txt", "r+");
+    FILE* history = fopen(filename, "r+");
     if (history == NULL) {
         printf("Error opening output file.\n");
         fclose(from_meals);
