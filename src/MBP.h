@@ -21,7 +21,7 @@ typedef struct {
 
 int S_init(void);
 
-void clear_buffer(char filename[]);
+void clear_buffer(char* filename);
 
 void read_data(FILE* from_meals, meal* catalogueArr);
 /* inputfile has fixed size of 15, size is therefore unneccessary.
