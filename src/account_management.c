@@ -1,11 +1,17 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
-#include "account_management.h"
 #include "structs.h"
+#include "account_management.h"
+
+#include "login.h"
+
 
 void changeUser(User* account) {
     char new_username[MAXLEN];
     char buffer[MAXLEN];
+    char old_filename[MAXLEN] = "../DB/";
+    char new_filename[MAXLEN] = "../DB/";
     int fscanf_retvalue;
     FILE *accounts_file;
     FILE *new_file;
@@ -13,7 +19,13 @@ void changeUser(User* account) {
     printf("Input new username: ");
     scanf("%s", new_username);
 
-    strcpy(account->username, new_username);
+    // Rename history.txt file
+    strcat(old_filename, account->username);
+    strcat(old_filename, "_history.txt");
+    strcat(new_filename, new_username);
+    strcat(new_filename, "_history.txt");
+
+    rename(old_filename, new_filename);
 
     accounts_file = fopen("../DB/accounts.txt", "rt");
     new_file = fopen("../DB/new_accounts.txt", "wt");
@@ -32,6 +44,8 @@ void changeUser(User* account) {
 
         fprintf(new_file, "%s\n", buffer);
     }
+
+    strcpy(account->username, new_username);
 
     fclose(accounts_file);
     fclose(new_file);
@@ -52,7 +66,7 @@ void changePass(User* account) {
     printf("Input new password: ");
     scanf("%s", new_password);
 
-    strcpy(account->username, new_password);
+    strcpy(account->password, new_password);
 
     accounts_file = fopen("../DB/accounts.txt", "rt");
     new_file = fopen("../DB/new_accounts.txt", "wt");

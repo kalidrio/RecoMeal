@@ -9,7 +9,11 @@ int main () {
 
     user_list = parseDB();
 
-    user = mainMenu(user_list);
+    user_list = user_list->next;
+
+    changeUser(user_list);
+
+    printf("%s", user_list->username);
 
     return 0;
 }
