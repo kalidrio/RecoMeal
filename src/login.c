@@ -48,8 +48,15 @@ User* parseDB() {
         counter++;
     }
 
+    fclose(ifp);
+
     // Set last user's next pointer to NULL
-    tmp->next = NULL;
+    if (tmp != NULL) {
+        tmp->next = NULL;
+    }
+    else {
+        head->next = NULL;
+    }
     return head;
 }
 
@@ -91,12 +98,12 @@ User* loginPage(User* user_list) {
 
     printf("Username: ");
     scanf("%s", username);
-    printf("\nPassword: ");
+    printf("Password: ");
     scanf("%s", password);
 
     while(1){
         if (curr_user == NULL){
-            printf("\nAccount does not exist\n\n.");
+            printf("\nAccount does not exist.\n\n");
             break;
         }
 
@@ -105,7 +112,7 @@ User* loginPage(User* user_list) {
                 return curr_user;
             }
             else{
-                printf("\nWrong password\n\n.");
+                printf("\nWrong password.\n\n");
                 break;
             }
         }
@@ -120,22 +127,28 @@ void signupPage(User* user_list) {
     char password[MAXLEN];
 
     while (1) {
-        printf("Enter a username: ");
+        User* curr_user = user_list;
+        int flag = 1; // flag for creating account
+        
+        printf("\nEnter a username: ");
         scanf("%s", username);
-        printf("\nEnter a password: ");
+        printf("Enter a password: ");
         scanf("%s", password);
 
-        while (user_list->next != NULL && user_list->username != username) {
-            user_list = user_list->next;
+        while (curr_user != NULL) {
+            if (strcmp(curr_user->username, username) == 0) {
+                flag = 0;
+            }
+            curr_user = curr_user->next;
         }
         
-        if (user_list->next != NULL) {
+        if (flag == 1) {
             createAccount(username, password, user_list);
             printf("\n\n");
             break;
         }
         else {
-            printf("\n\nUsername already exists.");
+            printf("\nUsername already exists.\n");
         }
     }
 }
@@ -162,7 +175,8 @@ void createAccount(char username[], char password[], User* user_list) {
     user_list->next = account;
 
     // Create txt file
-    strcpy(filename, account->username);
+    strcpy(filename, "../DB/");
+    strcat(filename, account->username);
     strcat(filename, "_history.txt");
     purchase_history = fopen(filename, "wt");
 }
@@ -173,8 +187,20 @@ void saveAccountToDB(User account) {
     FILE *accounts_file;
 
     accounts_file = fopen("../DB/accounts.txt", "at");
-    fprintf(accounts_file, "%s\n", account.username);
-    fprintf(accounts_file, "%s\n", account.password);
+    fprintf(accounts_file, "\n%s", account.username);
+    fprintf(accounts_file, "\n%s", account.password);
 
     fclose(accounts_file);
+}
+
+int main () {
+    User *user_list;
+    User *user;
+
+    user_list = parseDB();
+    user_list = user_list->next;
+
+    user = mainMenu(user_list);
+
+    return 0;
 }
