@@ -3,6 +3,21 @@
 #include "single.h"
 #define buflen 256
 
+
+
+
+/**
+ * @brief Initializes the RecoMeal program by reading data from files,
+ *        printing recent purchase history, and suggesting meals based on history.
+ * 
+ * This function initializes the RecoMeal program by opening and reading data
+ * from the meals.txt and history.txt files. It then populates arrays of meal
+ * and purchase structures accordingly. After printing the recent purchase history,
+ * it suggests meals to the user based on their budget and past purchase history.
+ * 
+ * @return int Returns 0 on successful initialization, 1 otherwise.
+ */
+
 int S_init(void) {
 
     char line[buflen];
@@ -25,6 +40,10 @@ int S_init(void) {
         return 1;
     }
 
+    printf("\n---------------WELCOME TO RECOMEAL------------------\n");
+    printf("              Decide less, eat more                 \n");
+
+
     while (fgets(line, sizeof(line), from_meals) != NULL) {
         items++; // count # of items in meals.txt
     }
@@ -45,11 +64,13 @@ int S_init(void) {
 		printf("No recent purchases. Proceeding to load program...\n\n");
 	}	
 
+
+
     purchase historyArr[history_items];
     read_history(history, historyArr); 
 	print_purchase(historyArr, history_items);	
 
-	suggest(catalogueArr, items);
+	suggest(catalogueArr, items, history);
 
 
     fclose(from_meals);
@@ -58,25 +79,50 @@ int S_init(void) {
     return 0;
 }
 
+
+/**
+ * @brief Prints the recent purchase history.
+ * 
+ * This function takes an array of purchase structures representing recent purchases
+ * and the number of items in the historyArr array. It prints the recent purchase
+ * history in a formatted table.
+ * 
+ * @param historyArr Pointer to the array of purchase structures.
+ * @param items Number of items in the historyArr array.
+ */
+
 void print_purchase(purchase* historyArr, int items) {
-	printf("You've recently bought the following:\n");
-	printf(" ID#	   MEAL	              SULITNESS\n");
-	printf("----------------------------------------\n");
+	printf("\n\nYou've recently bought the following:\n");
+	printf("---------------------------------------------\n");
+	printf("|          MEAL         | PRICE | SULITNESS |\n");
+	printf("|-----------------------|-------|-----------|\n");
 	for (int i = 0; i < items; i++) {
-		printf(" %03d	  %-20s	%.2f\n", 
-				historyArr[i].ID,
+		printf("|  %-20s | %5.2f |   %5.2f   |\n", 
 				historyArr[i].name,
+                historyArr[i].price,
 				historyArr[i].sulitness);
 	} 
+	printf("---------------------------------------------\n\n");
+
 }
 
 
+/**
+ * @brief Reads purchase history from a file into an array.
+ * 
+ * This function reads purchase history data from the provided file pointer
+ * and stores it in the array of purchase structures.
+ * 
+ * @param from_history File pointer to the purchase history file.
+ * @param historyArr Pointer to the array of purchase structures.
+ */
 void read_history(FILE* from_history, purchase* historyArr) {
 	char line[buflen];
 	int i = 0;
 	while (fgets(line, sizeof(line), from_history)) {
-		sscanf(line, "%d %s %f", &historyArr[i].ID, 
+		sscanf(line, "%s %f %f",
 					 historyArr[i].name,
+                     &historyArr[i].price,
 					 &historyArr[i].sulitness);
 		i++;
 	}
@@ -85,10 +131,15 @@ void read_history(FILE* from_history, purchase* historyArr) {
 
 
 
-
-
-
-
+/**
+ * @brief Reads meal data from a file into an array.
+ * 
+ * This function reads meal data from the provided file pointer
+ * and stores it in the array of meal structures.
+ * 
+ * @param from_meals File pointer to the meals file.
+ * @param catalogueArr Pointer to the array of meal structures.
+ */
 void read_data(FILE* from_meals, meal* catalogueArr) {
 	char line[buflen];
 	int i = 0;
@@ -111,16 +162,26 @@ void read_data(FILE* from_meals, meal* catalogueArr) {
 	}
 }
 
-void suggest(meal* catalogueArr, int items) {  
+
+
+/**
+ * @brief Prompts the user for their budget and suggests meals accordingly.
+ * 
+ * This function prompts the user to enter their budget for today's meal.
+ * It then suggests meals based on the provided budget and past purchase history.
+ * 
+ * @param catalogueArr Pointer to the array of meal structures representing available food items.
+ * @param items Number of items in the catalogueArr array.
+ * @param to_history File pointer to the purchase history file for recording new purchases.
+ */
+void suggest(meal* catalogueArr, int items, FILE* to_history) {  
 	float budget;
 	char trail;
-	int result;
-    int returnFlag = 0; // to return from budgetit function
-    int* returnPtr = &returnFlag; 
+	int result; 
 
-	printf("Program running, press Ctrl-D to exit...\n\n");
+	printf("\nProgram running, press Ctrl-D to exit...\n\n");
 	printf("\nWhat is your budget for today's meal? PHP ");
-	while((result = scanf("%f%c", &budget, &trail)) != EOF && returnFlag == 0) {
+	while((result = scanf("%f%c", &budget, &trail)) != EOF) {
 		if (result != 2 || trail != '\n') {
 			printf("\nPlease enter your budget correctly. PHP ");
 			clear_buffer();
@@ -128,13 +189,20 @@ void suggest(meal* catalogueArr, int items) {
 		}
 		else {
 			printf("With a budget of PHP %.2f, you can have the ff:\n", budget);
-			budget_it(catalogueArr, items, budget, returnPtr);
-            
+			budget_it(catalogueArr, items, budget, to_history);
+            break;          
 		}
 	}
 	printf("\n\nCtrl-D: End of program. Thank you for using RecoMeal!\n");
 }
 
+
+/**
+ * @brief Clears the input buffer to avoid infinite loops.
+ * 
+ * This function clears the input buffer by consuming all characters
+ * from the standard input stream until encountering a newline character.
+ */
 void clear_buffer(void) { 				// to avoid infinite loops
 	while ((getchar()) != '\n'); 
 }
@@ -154,9 +222,12 @@ void clear_buffer(void) { 				// to avoid infinite loops
  * @param catalogueArr Pointer to the array of meal structures.
  * @param items Number of items in the catalogueArr array.
  * @param budget The budget for filtering food items.
+ * @param to_history File pointer to the purchase history file.
  */
-void budget_it(meal* catalogueArr, int items, float budget, int* returnPTR) {
+void budget_it(meal* catalogueArr, int items, float budget, FILE* to_history) {
     int i;
+    int result;
+    char trail, choice;
 
     // Creating a new array of structures to copy the catalogue
     meal temp[items];
@@ -199,8 +270,7 @@ void budget_it(meal* catalogueArr, int items, float budget, int* returnPTR) {
 
     printf("Would you like to record a purchase? Y/N.\n");
 
-    int result;
-    char trail, choice;
+
     while((result = scanf(" %c%c", &choice, &trail)) != EOF) {
         if (result != 2 || trail != '\n') {
             printf("\nPlease enter Y or N.");
@@ -211,19 +281,68 @@ void budget_it(meal* catalogueArr, int items, float budget, int* returnPTR) {
             switch(choice) {
                 case 'y':
                 case 'Y':
-                    //inputMode();
+                    inputMode(to_history);
                     break;
                 case 'n':
                 case 'N':
-                    *returnPTR = 1;
                     break;
                 default: 
                     printf("\nPlease enter Y or N.");
                     clear_buffer();
                     continue;
             }
-            // Break out of the while loop when the input is processed
             break;
         }
     }
+}
+
+/**
+ * @brief Handles the input mode where the user can record a new purchase.
+ * 
+ * This function allows the user to input details of a new purchase,
+ * such as the name, price, and sulitness of the meal. It then records
+ * the purchase in the purchase history file provided.
+ * 
+ * @param to_history File pointer to the purchase history file for recording new purchases.
+ */
+void inputMode(FILE* to_history) {
+    rewind(to_history); //places the pointer at the start;
+    int items = 0; // Initialize items to 0
+    char line[buflen];
+    while (fgets(line, sizeof(line), to_history) != NULL) {
+        items++; // count # of items and places the pointer at the end of the file
+    }
+
+    // Increase size by 1 for the new purchase
+    purchase currHistory[items + 1];
+
+    // Read history into currHistory array
+    rewind(to_history);
+    read_history(to_history, currHistory);
+
+    // Move existing purchases back by one position
+    for (int i = items; i > 0; i--) {
+        currHistory[i] = currHistory[i - 1];
+    }
+
+    purchase temp;
+
+    printf("Please enter the Name of the Meal: ");
+    scanf("%s", temp.name);
+    printf("\n");
+
+    printf("Please enter the Price of the Meal: ");
+    scanf("%f", &temp.price);
+    printf("\n");
+
+    printf("Please enter the Sulitness of the Meal (1-10): ");
+    scanf("%f", &temp.sulitness);
+    printf("\n");
+
+    rewind(to_history);
+    currHistory[0] = temp;
+    for(int i=0; i<(items+1); i++ ){
+        fprintf(to_history, "%s %f %f\n", currHistory[i].name, currHistory[i].price, currHistory[i].sulitness);
+    }
+
 }

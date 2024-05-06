@@ -13,8 +13,8 @@ typedef struct {
 } meal; 
 
 typedef struct {
-	int ID;
 	char name[stdlen];
+	float price;
 	float sulitness;
 } purchase;
 
@@ -32,7 +32,7 @@ void read_history(FILE* from_history, purchase* historyArr);
 
 void print_purchase(purchase* historyArr, int items);
 
-void suggest(meal* catalogueArr, int count);	
-void budget_it(meal* catalogueArr, int items, float budget, int* returnPTR);
-
+void suggest(meal* catalogueArr, int count, FILE* to_history);	
+void budget_it(meal* catalogueArr, int items, float budget, FILE* to_history);
+void inputMode(FILE* to_history);
 
