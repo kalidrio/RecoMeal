@@ -9,7 +9,6 @@ int main() {
 	User *user;
 
 	user_list = parseDB();
-	user_list = user_list->next;
 
 	user=mainMenu(user_list);
 	
