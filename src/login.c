@@ -76,9 +76,9 @@ User* mainMenu(User* user_list) {
                 signupPage(user_list);
                 continue;
             case 3:
-                return;
+                return NULL;
             default:
-                printf("\nInvalid choice. Please choose one of the options above.");
+                printf("\nInvalid choice. Please choose one of the options above\n\n.");
                 continue;
         }
     }
@@ -87,25 +87,25 @@ User* mainMenu(User* user_list) {
 User* loginPage(User* user_list) {
     char username[MAXLEN];
     char password[MAXLEN];
-    User* curr_user = user_list->next;
+    User* curr_user = user_list;
 
     printf("Username: ");
     scanf("%s", username);
-    printf("Password: ");
+    printf("\nPassword: ");
     scanf("%s", password);
 
     while(1){
         if (curr_user == NULL){
-            printf("\nAccount does not exist.");
+            printf("\nAccount does not exist\n\n.");
             break;
         }
 
         if(strcmp(username, curr_user->username) == 0){
-            if(strcmp(password, curr_user->next) == 0){
+            if(strcmp(password, curr_user->password) == 0){
                 return curr_user;
             }
             else{
-                printf("\nWrong password.");
+                printf("\nWrong password\n\n.");
                 break;
             }
         }
@@ -118,16 +118,26 @@ User* loginPage(User* user_list) {
 void signupPage(User* user_list) {
     char username[MAXLEN];
     char password[MAXLEN];
-    User* curr_user = user_list->next;
 
-    printf("Enter a username: ");
-    scanf("%s", username);
-    printf("Enter a password: ");
-    scanf("%s", password);
+    while (1) {
+        printf("Enter a username: ");
+        scanf("%s", username);
+        printf("\nEnter a password: ");
+        scanf("%s", password);
 
-
-
-    createAccount(username, password, user_list);
+        while (user_list->next != NULL && user_list->username != username) {
+            user_list = user_list->next;
+        }
+        
+        if (user_list->next != NULL) {
+            createAccount(username, password, user_list);
+            printf("\n\n");
+            break;
+        }
+        else {
+            printf("\n\nUsername already exists.");
+        }
+    }
 }
 
 // Creates User struct and links it to existing user list
