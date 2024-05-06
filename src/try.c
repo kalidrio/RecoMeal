@@ -3,13 +3,10 @@
 #include "single.h"
 #define buflen 256
 
-
-
-
 /**
- * @brief Initializes the RecoMeal program by reading data from files,
- *        printing recent purchase history, and suggesting meals based on history.
- * 
+ * int S_init(void)
+ * @brief  Makes necessary actions to initialize the program.
+ *
  * This function initializes the RecoMeal program by opening and reading data
  * from the meals.txt and history.txt files. It then populates arrays of meal
  * and purchase structures accordingly. After printing the recent purchase history,
@@ -24,8 +21,6 @@ int S_init(void) {
     int items = 0;
     int history_items = 0;
     long size_toCheck = 0;
-
-
 
     FILE* from_meals = fopen("../DB/meals.txt", "r");
     if (from_meals == NULL) {
@@ -47,40 +42,38 @@ int S_init(void) {
     while (fgets(line, sizeof(line), from_meals) != NULL) {
         items++; // count # of items in meals.txt
     }
-	rewind(from_meals);
+    rewind(from_meals); // moves file ptr back to start of file
+
     /*creates an array of structs*/
     meal catalogueArr[items]; 		
     /*reads the data from the file and puts them in the array.*/
     read_data(from_meals, catalogueArr);
 
-
     while (fgets(line, sizeof(line), history) != NULL) {
-        history_items++; // count # of items in history.txt
+        history_items++;
     }
-	rewind(history); // Rewind file pointer to the beginning
+    rewind(history);
 
-
-	if (history_items == 1) { 			// purchase history file is empty
-		printf("No recent purchases. Proceeding to load program...\n\n");
-	}	
-
-
+    if (history_items == 1) { // purchase history file is empty
+	printf("No recent purchases. Proceeding to load program...\n\n");
+    }	
 
     purchase historyArr[history_items];
+    
     read_history(history, historyArr); 
-	print_purchase(historyArr, history_items);	
 
-	suggest(catalogueArr, items, history);
+    print_purchase(historyArr, history_items);	
 
+    suggest(catalogueArr, items, history);
 
     fclose(from_meals);
     fclose(history);
-
     return 0;
 }
 
 
 /**
+ * void print_purchase(purchase* historyArr, int items)
  * @brief Prints the recent purchase history.
  * 
  * This function takes an array of purchase structures representing recent purchases
