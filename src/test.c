@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "structs.h"
 #include "login.h"
+#include "account_management.h"
 
 int main () {
     User *user_list;
