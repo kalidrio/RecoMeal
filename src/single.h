@@ -23,12 +23,12 @@ int S_init(void);
 
 void clear_buffer(void);
 
-void read_data(FILE* from_meals, meal* catalogueArr, int* count);
+void read_data(FILE* from_meals, meal* catalogueArr);
 /* inputfile has fixed size of 15, size is therefore unneccessary.
  * count is included as pointer to be used by a later function.
  */
 
-void read_history(FILE* from_history, purchase* historyArr, int items);
+void read_history(FILE* from_history, purchase* historyArr);
 
 void print_purchase(purchase* historyArr, int items);
 

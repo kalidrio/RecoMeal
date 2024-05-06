@@ -64,9 +64,8 @@ void clear_buffer(void) { 				// to avoid infinite loops
 	while ((getchar()) != '\n'); 
 }
 
-void read_data(FILE* from_meals, meal* catalogueArr, int* count) {
+void read_data(FILE* from_meals, meal* catalogueArr) {
 	char line[buflen];
-	int i = 0;
 	while (fgets(line, sizeof(line), from_meals)) {
 		sscanf(line, "%d %49s %f %49s %f %49s %f %f %f",
 							&catalogueArr[i].ID, 
@@ -82,19 +81,15 @@ void read_data(FILE* from_meals, meal* catalogueArr, int* count) {
 
 							&catalogueArr[i].total_price,
 							&catalogueArr[i].sulitness);
-		i++;	
 	}
-	*count = i;
 }
 
-void read_history(FILE* from_history, purchase* historyArr, int items) {
+void read_history(FILE* from_history, purchase* historyArr) {
 	char line[buflen];
-	int i = 0;
 	while (fgets(line, sizeof(line), from_history)) {
 		sscanf(line, "%d %s %f", &historyArr[i].ID, 
 					 historyArr[i].name,
 					 &historyArr[i].sulitness);
-		i++;
 	}
 }
 

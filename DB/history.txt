@@ -1,0 +1,10 @@
+00001 Adobo 8.00
+00002 Sinigang 6.00
+00003 Kwek-Kwek 9.00
+00004 Orlian 8.00
+00005 Ice_Coffee 8.00
+00006 Mango_Juice 8.00
+00007 Blue_Lemonade 8.00
+00008 Sisig 8.00
+00009 Fried_Chicken 8.01
+00010 Tapsilog 8.02
