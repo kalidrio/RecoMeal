@@ -9,10 +9,13 @@ int main() {
 	User *user;
 
 	user_list = parseDB();
-	user_list = user_list->next;
 
 	user=mainMenu(user_list);
 	
+    if (user == NULL) {
+        return 0;
+    }
+
 	S_init(user->username);
 	return 0;
 }
