@@ -25,7 +25,7 @@ int S_init(char* filename) {
     int history_items = 0;
     long size_toCheck = 0;
 
-    char directory[] = "../DB/";
+    char directory[100] = "../DB/";
     strcat(directory, filename);
     strcat(directory, "_history.txt");
 
@@ -345,26 +345,24 @@ void inputMode(FILE* to_history) {
 
 
     printf("Please enter the Price of the Meal: ");
-        while((result = scanf(" %f%c", temp.price, &trail)) != EOF) {
+    while ((result = scanf("%f%c", &temp.price, &trail)) != EOF) {
         if (result != 2 || trail != '\n') {
             printf("\nPlease enter again.");
             clear_buffer();
             continue;
-        }
-        else{
+        } else {
             break;
         }
-    printf("\n");
     }
+    printf("\n");
 
     printf("Please enter the Sulitness of the Meal (1-10): ");
-        while((result = scanf(" %f%c", temp.sulitness, &trail)) != EOF) {
+    while ((result = scanf("%f%c", &temp.sulitness, &trail)) != EOF) {
         if (result != 2 || trail != '\n') {
             printf("\nPlease enter again. ");
             clear_buffer();
             continue;
-        }
-        else{
+        } else {
             break;
         }
     }
