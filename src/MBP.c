@@ -33,7 +33,7 @@ int S_init(char* filename) {
 
 
     while (fgets(line, sizeof(line), from_meals) != NULL) {
-        items++; // count # of items in meals.txt
+        items++; // count # of items(based on \n chars) in meals.txt
     } rewind(from_meals); // return file ptr to the 
 			  // start of file
 
@@ -41,10 +41,12 @@ int S_init(char* filename) {
     read_data(from_meals, catalogueArr); // read and store data to struct array
 
     while (fgets(line, sizeof(line), history) != NULL) {
-        history_items++; // count # of items in history.txt
+        history_items++; // count # of items(based on \n chars) in history.txt
     } rewind(history); // Rewind file pointer to the beginning
 
-    if (history_items == 1) { // purchase history file is empty
+    if (history_items <= 1) { // purchase history file is empty
+			      // <= 1 accounts for cases where the file
+			      // is mostly empty aside from a single \n char
 	printf("No recent purchases. Proceeding to load program...\n\n");
     }	
     purchase historyArr[history_items];
