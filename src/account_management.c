@@ -25,7 +25,7 @@ void changePass(User* account) {
 
 // No need to pass **head, as head will never be deleted
 void deleteAccount(User* account, User* head) {
-    User* prev_node;
+    User* prev_node = head;
 
     // Find node previous to account node
     while (1) {
