@@ -23,7 +23,8 @@ int S_init(char* filename) {
     char line[buflen];
     int items = 0;
     int history_items = 0;
-    long size_toCheck = 0;
+    int choice, result;
+    char trail;
 
     char directory[100] = "../DB/";
     strcat(directory, filename);
@@ -65,16 +66,42 @@ int S_init(char* filename) {
 	if (history_items == 1) { 			// purchase history file is empty
 		printf("No recent purchases. Proceeding to load program...\n\n");
 	}	
-
-
-
     purchase historyArr[history_items];
     read_history(history, historyArr); 
-	print_purchase(historyArr, history_items);	
+	print_purchase(historyArr, history_items);
 
-	suggest(catalogueArr, items, history);
+//dunno if u want to continue this kasi mababago flowchart
+    printf("What would you like to do?(Ctrl-D to Exit)\n");
+    printf("\t1. Suggest Mode\n\t2. User Settings\n\t3. Exit");
+    while((result = scanf(" %d%c", &choice, &trail)) != EOF) {
+        if (result != 2 || trail != '\n') {
+            printf("\nPlease enter a valid option");
+            clear_buffer();
+            continue;
+        }
+        else {
+            switch(choice) {
+                case 1:
+	                suggest(catalogueArr, items, history);
+                    break;
+                case 2:
+                    print_userMenu();
+                    //add create a function para dun sa settings dunno what tho
+                    break;
+                case 3:
+	                printf("\n\nThank you for using RecoMeal!\n");
+                    break;
+                default: 
+                    printf("\nPlease enter a valid number.");
+                    clear_buffer();
+                    continue;
+            }
+            break;
+        }
+    }
 
 
+	printf("\n\nCtrl-D: End of program. Thank you for using RecoMeal!\n");
     fclose(from_meals);
     fclose(history);
 
@@ -375,4 +402,9 @@ void inputMode(FILE* to_history) {
         fprintf(to_history, "%s %f %f\n", currHistory[i].name, currHistory[i].price, currHistory[i].sulitness);
     }
 
+}
+/*user settings*/
+void print_userMenu(void){
+    printf("What would you like to do?\n");
+    printf("\t1. Change User\n\t2.Change Password\n\t3. Delete Account\n");
 }

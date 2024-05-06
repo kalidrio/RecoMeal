@@ -37,3 +37,4 @@ void print_purchase(purchase* historyArr, int items);
 void suggest(meal* catalogueArr, int count, FILE* to_history);	
 void budget_it(meal* catalogueArr, int items, float budget, FILE* to_history);
 void inputMode(FILE* to_history);
+void print_userMenu(void);
