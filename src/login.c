@@ -78,7 +78,7 @@ User* mainMenu(User* user_list) {
             case 3:
                 return NULL;
             default:
-                printf("\nInvalid choice. Please choose one of the options above.");
+                printf("\nInvalid choice. Please choose one of the options above\n\n.");
                 continue;
         }
     }
@@ -91,12 +91,12 @@ User* loginPage(User* user_list) {
 
     printf("Username: ");
     scanf("%s", username);
-    printf("Password: ");
+    printf("\nPassword: ");
     scanf("%s", password);
 
     while(1){
         if (curr_user == NULL){
-            printf("\nAccount does not exist.");
+            printf("\nAccount does not exist\n\n.");
             break;
         }
 
@@ -105,7 +105,7 @@ User* loginPage(User* user_list) {
                 return curr_user;
             }
             else{
-                printf("\nWrong password.");
+                printf("\nWrong password\n\n.");
                 break;
             }
         }
@@ -125,7 +125,7 @@ void signupPage(User* user_list) {
     printf("Enter a password: ");
     scanf("%s", password);
 
-
+    
 
     createAccount(username, password, user_list);
 }
