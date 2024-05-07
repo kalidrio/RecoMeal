@@ -9,7 +9,9 @@
 009 Tocilog 70.00 Turon 10.00 Water 0.00 80.00 7.5
 010 Tuna_mayo_sandwich 50.00 none 0.00 Iced_Coffee 20.00 70.00 7.8
 011 Ham_and_Cheese 20.00 none 0.00 Ice_Coffee 20.00 40.00 8.2
-012 Pork_Tonkatsu 70.00 side_dish 15.00 Water 0.00 85.00 8.5
+012 Pork_Tonkatsu 70.00 Togue 15.00 Water 0.00 85.00 8.5
 013 Chicken_Fillet 70.00 none 0.00 Water 0.00 70.00 7.1
 014 Crispy_King_w/rice 55.00 none 0.00 Water 0.00 55.00 9.2
 015 Egg_Sandwich 20.00 none 0.00 Milk_Tea 40.00 60.00 7.2
+016 Candy 1.00 none 0.00 Water 0.00 1.00 2.1
+017 Water 0.00 none 0.00 Water 0.00 0.00 1.2

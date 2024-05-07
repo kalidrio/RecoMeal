@@ -106,16 +106,16 @@ void read_history(FILE* from_history, purchase* historyArr) {
 
 void print_purchase(purchase* historyArr, int items) {
 	printf("\n\nYou've recently bought the following:\n");
-	printf("-----------------------------------------------\n");
-	printf("|          MEAL         |  PRICE  | SULITNESS |\n");
-	printf("|-----------------------|---------|-----------|\n");
+	printf("------------------------------------------------\n");
+	printf("|          MEAL         |   PRICE  | SULITNESS |\n");
+	printf("|-----------------------|----------|-----------|\n");
 	for (int i = 0; i < items; i++) {
-		printf("|  %-20s |  %5.2f  |   %5.2f   |\n", 
+		printf("|  %-20s |  %6.2f  |   %5.2f   |\n", 
 				historyArr[i].name,
             			historyArr[i].price,
 				historyArr[i].sulitness);
 	} 
-	printf("-----------------------------------------------\n\n");
+	printf("------------------------------------------------\n\n");
 
 }
 
@@ -170,7 +170,7 @@ void budget_it(meal* catalogueArr, int items, float budget, FILE* to_history, Us
 
     for (i = 0; i < items; i++) {
         if (temp[i].total_price <= budget) {
-            printf("| %03d  | %-25s  | ₱%-7.2f | %-13s | ₱%-7.2f | %-13s | $%-7.2f | $%-10.2f | %-9.2f |\n",
+            printf("| %03d  | %-25s  | ₱%-7.2f | %-13s | ₱%-7.2f | %-13s | ₱%-7.2f | ₱%-10.2f | %-9.2f |\n",
                    temp[i].ID, temp[i].main_course, temp[i].Mprice,
                    temp[i].side, temp[i].Sprice,
                    temp[i].beverage, temp[i].Bprice,
@@ -180,10 +180,11 @@ void budget_it(meal* catalogueArr, int items, float budget, FILE* to_history, Us
 
     printf("--------------------------------------------------------------------------------------------------------------------------------\n");
 
-
+    printf("\nWhat's on you mind?\n");
     printf("\n\t1. Record a purchase.\n");
     printf("\t2. Update User Settings.\n");
     printf("\t3. End Program.\n");
+    printf("Choice: ");
 
 
     while((result = scanf(" %d%c", &choice, &trail)) != EOF) {
