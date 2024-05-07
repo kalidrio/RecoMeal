@@ -180,7 +180,7 @@ void budget_it(meal* catalogueArr, int items, float budget, FILE* to_history, Us
 
     printf("--------------------------------------------------------------------------------------------------------------------------------\n");
 
-    printf("\nWhat's on you mind?\n");
+    printf("\nWhat's on your mind?\n");
     printf("\n\t1. Record a purchase.\n");
     printf("\t2. Update User Settings.\n");
     printf("\t3. End Program.\n");
