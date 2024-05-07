@@ -285,7 +285,7 @@ void inputMode(FILE* to_history) {
 /*user settings*/
 void print_userMenu(void){
     printf("What would you like to do? (Ctrl-D to Exit)\n");
-    printf("\t1. Change User\n\t2.Change Password\n\t3. Delete Account\n");
+    printf("\t1. Change User\n\t2. Change Password\n\t3. Delete Account\n");
 }
 
 
