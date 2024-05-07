@@ -33,8 +33,9 @@ int S_init(User* user, User* head);
  * from the meals.txt and history.txt files. It then populates arrays of meal
  * and purchase structures accordingly. After printing the recent purchase history,
  * it suggests meals to the user based on their budget and past purchase history.
- * @param char filename is used here as a pointer to the name of user
  * @return int Returns 0 on successful initialization, 1 otherwise.
+ * @param account is used to access the username of the user to open his history file.
+ * @param head is passed on to the function, this is the head pointer of the linked lists of accounts.
  */
 
 void read_data(FILE* from_meals, meal* catalogueArr);
@@ -102,9 +103,12 @@ void budget_it(meal* catalogueArr, int items, float budget, FILE* to_history, Us
  * @param items Number of items in the catalogueArr array.
  * @param budget The budget for filtering food items.
  * @param to_history File pointer to the purchase history file.
+ * @param account is passed on to the function, this is the structure of the current account.
+ * @param head is passed on to the function, this is the head pointer of the linked lists of accounts.
  */
 
 void inputMode(FILE* to_history);
+
 /**
  * @brief Handles the input mode where the user can record a new purchase.
  *
@@ -115,7 +119,25 @@ void inputMode(FILE* to_history);
  * @param to_history File pointer to the purchase history file for recording new purchases.
  */
 
+
 void print_userMenu(void);
 
+/**
+*brief Handles the user account settings printing
+
+**/
 
 void userSettings(User* account, User* head);
+
+/**
+* @brief Handles the user account settings printing
+* Takes a user input (1-3). This function executes 3 options based on the user input. 
+* 1. Change user - opens the changeUser() function
+* 2. Change password - opens the changePass() function
+* 3. Delete account - executes the deleteAccount() and deleteAccountFromDB() functions.
+* @param account is passed on to the function, this is the structure of the current account.
+* @param head is passed on to the function, this is the head pointer of the linked lists of accounts.
+**/
+
+
+
