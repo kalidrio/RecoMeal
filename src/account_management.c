@@ -4,8 +4,6 @@
 #include "structs.h"
 #include "account_management.h"
 
-#include "login.h"
-
 
 void changeUser(User* account) {
     char new_username[MAXLEN];
