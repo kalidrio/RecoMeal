@@ -114,3 +114,6 @@ void inputMode(FILE* to_history);
  */
 
 void print_userMenu(void);
+
+
+void userSettings(void);
