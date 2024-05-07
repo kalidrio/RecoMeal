@@ -183,7 +183,7 @@ void budget_it(meal* catalogueArr, int items, float budget, FILE* to_history, Us
 
     printf("\n\t1. Record a purchase.\n");
     printf("\t2. Update User Settings.\n");
-    printf("\t2. End Program.\n");
+    printf("\t3. End Program.\n");
 
 
     while((result = scanf(" %d%c", &choice, &trail)) != EOF) {
