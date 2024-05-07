@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <string.h>
+#include "structs.h"
 #include "MBP.h"
 #include "account_management.h"
-#include "structs.h"
+#include "login.h"
 
 
 #define buflen 256
@@ -11,16 +12,16 @@ void clear_buffer(void) { // to avoid infinite loops
 	while ((getchar()) != '\n'); 
 }
 
-int S_init(char* filename) {
+int S_init(User* user, User* head) {
 
     char line[buflen];
     int items = 0;
-    int history_items = 0;
+    int history_items = 0;  
     int choice, result;
     char trail;
 
     char directory[100] = "../DB/";
-    strcat(directory, filename);
+    strcat(directory, user->username);
     strcat(directory, "_history.txt");
 
     FILE* from_meals = fopen("../DB/meals.txt", "r");
@@ -61,7 +62,7 @@ int S_init(char* filename) {
     } else {
     	print_purchase(historyArr, history_items); // 3. Self-explanatory
     }
-    suggest(catalogueArr, items, history);
+    suggest(catalogueArr, items, history, user, head);
 
 
     fclose(from_meals);
@@ -118,7 +119,7 @@ void print_purchase(purchase* historyArr, int items) {
 
 }
 
-void suggest(meal* catalogueArr, int items, FILE* to_history) {  
+void suggest(meal* catalogueArr, int items, FILE* to_history, User* user, User* head) {  
 	float budget;
 	char trail;
 	int result; 
@@ -133,14 +134,14 @@ void suggest(meal* catalogueArr, int items, FILE* to_history) {
 		}
 		else {
 			printf("With a budget of PHP %.2f, you can have the ff:\n", budget);
-			budget_it(catalogueArr, items, budget, to_history);
+			budget_it(catalogueArr, items, budget, to_history, user, head);
             break;          
 		}
 	}
 	printf("\n\nCtrl-D: End of program. Thank you for using RecoMeal!\n");
 }
 
-void budget_it(meal* catalogueArr, int items, float budget, FILE* to_history) {
+void budget_it(meal* catalogueArr, int items, float budget, FILE* to_history, User* user, User* head) {
     int i;
     int choice, result;
     char trail;
@@ -198,7 +199,7 @@ void budget_it(meal* catalogueArr, int items, float budget, FILE* to_history) {
                     break;
                 case 2:
                     print_userMenu();
-                    userSettings();
+                    userSettings(user, head);
                     break;
                 case 3:
                     break;    
@@ -288,7 +289,7 @@ void print_userMenu(void){
 }
 
 
-void userSettings(void){
+void userSettings(User* account, User* head){
     int result, choice;
     char trail;
 
@@ -301,13 +302,13 @@ void userSettings(void){
         else {
             switch(choice) {
                 case 1:
-                    changeUser(User* account);
+                    changeUser(account);
                     break;
                 case 2:
-                    changePass(User* account);
+                    changePass(account);
                     break;
                 case 3:
-                    deleteAccount(User* account, User* head);
+                    deleteAccount(account, head);
                     break;
                 default:
                     printf("\nPlease enter a valid number.");

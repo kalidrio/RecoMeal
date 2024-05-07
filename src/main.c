@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include "MBP.h"
 #include "structs.h"
+#include "MBP.h"
 #include "login.h"
 
 
@@ -16,6 +16,6 @@ int main() {
         return 0;
     }
 
-	S_init(user->username);
+	S_init(user, user_list);
 	return 0;
 }
