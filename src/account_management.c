@@ -108,10 +108,10 @@ void deleteAccount(User* account, User* head) {
         break;
     }
 
+    deleteAccountFromDB(account, head);
+
     prev_node->next = account->next;
     free(account);
-
-    deleteAccountFromDB(account, head);
 }
 
 void deleteAccountFromDB(User* account, User* head) {
