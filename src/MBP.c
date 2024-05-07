@@ -1,22 +1,27 @@
 #include <stdio.h>
 #include <string.h>
+#include "structs.h"
 #include "MBP.h"
+#include "account_management.h"
+#include "login.h"
+
+
 #define buflen 256
 
 void clear_buffer(void) { // to avoid infinite loops
 	while ((getchar()) != '\n'); 
 }
 
-int S_init(char* filename) {
+int S_init(User* user, User* head) {
 
     char line[buflen];
     int items = 0;
-    int history_items = 0;
+    int history_items = 0;  
     int choice, result;
     char trail;
 
     char directory[100] = "../DB/";
-    strcat(directory, filename);
+    strcat(directory, user->username);
     strcat(directory, "_history.txt");
 
     FILE* from_meals = fopen("../DB/meals.txt", "r");
@@ -57,36 +62,9 @@ int S_init(char* filename) {
     } else {
     	print_purchase(historyArr, history_items); // 3. Self-explanatory
     }
-//dunno if u want to continue this kasi mababago flowchart
-    printf("What would you like to do?(Ctrl-D to Exit)\n");
-    printf("\t1. Suggest Mode\n\t2. User Settings\n\t3. Exit");
-    while((result = scanf(" %d%c", &choice, &trail)) != EOF) {
-        if (result != 2 || trail != '\n') {
-            printf("\nPlease enter a valid option");
-            clear_buffer();
-            continue;
-        }
-        else {
-            switch(choice) {
-                case 1:
-                        suggest(catalogueArr, items, history);
-                    break;
-                case 2:
-                    print_userMenu();
-                    //add create a function para dun sa settings dunno what tho
-                    break;
-                case 3:
-                        printf("\n\nThank you for using RecoMeal!\n");
-                    break;
-                default:
-                    printf("\nPlease enter a valid number.");
-                    clear_buffer();
-                    continue;
-            }
-            break;
-        }
-    }
-    printf("\n\nCtrl-D: End of program. Thank you for using RecoMeal!\n");
+    suggest(catalogueArr, items, history, user, head);
+
+
     fclose(from_meals);
     fclose(history);
     return 0;
@@ -141,7 +119,7 @@ void print_purchase(purchase* historyArr, int items) {
 
 }
 
-void suggest(meal* catalogueArr, int items, FILE* to_history) {  
+void suggest(meal* catalogueArr, int items, FILE* to_history, User* user, User* head) {  
 	float budget;
 	char trail;
 	int result; 
@@ -156,17 +134,17 @@ void suggest(meal* catalogueArr, int items, FILE* to_history) {
 		}
 		else {
 			printf("With a budget of PHP %.2f, you can have the ff:\n", budget);
-			budget_it(catalogueArr, items, budget, to_history);
+			budget_it(catalogueArr, items, budget, to_history, user, head);
             break;          
 		}
 	}
 	printf("\n\nCtrl-D: End of program. Thank you for using RecoMeal!\n");
 }
 
-void budget_it(meal* catalogueArr, int items, float budget, FILE* to_history) {
+void budget_it(meal* catalogueArr, int items, float budget, FILE* to_history, User* user, User* head) {
     int i;
-    int result;
-    char trail, choice;
+    int choice, result;
+    char trail;
 
     meal temp[items]; // temp struct Arr for copying the catalogue
     
@@ -203,24 +181,28 @@ void budget_it(meal* catalogueArr, int items, float budget, FILE* to_history) {
     printf("--------------------------------------------------------------------------------------------------------------------------------\n");
 
 
-    printf("Would you like to record a purchase? Y/N.\n");
+    printf("\n\t1. Record a purchase.\n");
+    printf("\t2. Update User Settings.\n");
+    printf("\t3. End Program.\n");
 
 
-    while((result = scanf(" %c%c", &choice, &trail)) != EOF) {
+    while((result = scanf(" %d%c", &choice, &trail)) != EOF) {
         if (result != 2 || trail != '\n') {
-            printf("\nPlease enter Y or N.");
+            printf("\nPlease enter a valid number");
             clear_buffer();
             continue;
         }
         else {
             switch(choice) {
-                case 'y':
-                case 'Y':
+                case 1:
                     inputMode(to_history);
                     break;
-                case 'n':
-                case 'N':
+                case 2:
+                    print_userMenu();
+                    userSettings(user, head);
                     break;
+                case 3:
+                    break;    
                 default: 
                     printf("\nPlease enter Y or N.");
                     clear_buffer();
@@ -302,6 +284,38 @@ void inputMode(FILE* to_history) {
 }
 /*user settings*/
 void print_userMenu(void){
-    printf("What would you like to do?\n");
-    printf("\t1. Change User\n\t2.Change Password\n\t3. Delete Account\n");
+    printf("What would you like to do? (Ctrl-D to Exit)\n");
+    printf("\t1. Change User\n\t2. Change Password\n\t3. Delete Account\n");
+}
+
+
+void userSettings(User* account, User* head){
+    int result, choice;
+    char trail;
+
+    while((result = scanf(" %d%c", &choice, &trail)) != EOF) {
+        if (result != 2 || trail != '\n') {
+            printf("\nPlease enter a valid option");
+            clear_buffer();
+            continue;
+        }
+        else {
+            switch(choice) {
+                case 1:
+                    changeUser(account);
+                    break;
+                case 2:
+                    changePass(account);
+                    break;
+                case 3:
+                    deleteAccount(account, head);
+                    break;
+                default:
+                    printf("\nPlease enter a valid number.");
+                    clear_buffer();
+                    continue;
+            }
+            break;
+        }
+    }
 }

@@ -24,7 +24,7 @@ void clear_buffer(void);
  * 	  until a '\n' is encountered, effectively clearing the input buffer.
  */
 
-int S_init(char* filename);
+int S_init(User* user, User* head);
 /**
  * @brief Initializes the RecoMeal program by reading data from files,
  *        printing recent purchase history, and suggesting meals based on history.
@@ -75,7 +75,7 @@ void print_purchase(purchase* historyArr, int items);
  * @param items Number of items in the historyArr array.
  */
 
-void suggest(meal* catalogueArr, int count, FILE* to_history);	
+void suggest(meal* catalogueArr, int count, FILE* to_history, User* user, User* head);	
 /**
  * @brief Prompts the user for their budget and suggests meals accordingly.
  *
@@ -85,9 +85,11 @@ void suggest(meal* catalogueArr, int count, FILE* to_history);
  * @param catalogueArr Pointer to the array of meal structures representing available food items.
  * @param items Number of items in the catalogueArr array.
  * @param to_history File pointer to the purchase history file for recording new purchases.
+ * @param user will be passed on other functions
+ * @param head will be passed on other functions
  */
 
-void budget_it(meal* catalogueArr, int items, float budget, FILE* to_history);
+void budget_it(meal* catalogueArr, int items, float budget, FILE* to_history, User* user, User* head);
 /**
  * @brief Filters and prints food items within the specified budget, sorted by sulitness.
  *
@@ -114,3 +116,6 @@ void inputMode(FILE* to_history);
  */
 
 void print_userMenu(void);
+
+
+void userSettings(User* account, User* head);

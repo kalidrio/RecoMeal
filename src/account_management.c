@@ -4,8 +4,6 @@
 #include "structs.h"
 #include "account_management.h"
 
-#include "login.h"
-
 
 void changeUser(User* account) {
     char new_username[MAXLEN];
@@ -118,9 +116,15 @@ void deleteAccount(User* account, User* head) {
 
 void deleteAccountFromDB(User* account, User* head) {
     char buffer[MAXLEN];
+    char history_filename[MAXLEN] = "../DB/";
     int fscanf_retvalue;
     FILE *accounts_file;
     FILE *new_file;
+
+    // Remove purchase history text file of the user
+    strcat(history_filename, account->username);
+    strcat(history_filename, "_history.txt");
+    remove(history_filename);
 
     accounts_file = fopen("../DB/accounts.txt", "rt");
     new_file = fopen("../DB/new_accounts.txt", "wt");
