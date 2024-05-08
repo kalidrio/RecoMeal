@@ -60,34 +60,55 @@ User* parseDB() {
     return head;
 }
 
+// Expected to return a user struct
+// Returns NULL when input corresponds to exit program
 User* mainMenu(User* user_list) {
     User* user = NULL;
+    char trail;
     int choice; 
+    int scanf_retvalue;
 
     while(1){
+        printf("Welcome to RecoMeal!\n");
+        printf("Ctrl+D anytime to exit.\n\n");
         printf("(1) Log In\n");
         printf("(2) Sign Up\n");
         printf("(3) Exit\n\n");
 
         printf("Please input the number of your choice: ");
 
-        scanf("%d", &choice);
+        scanf_retvalue = scanf("%d%c", &choice, &trail);
 
-        switch(choice){
-            case 1:
-                user = loginPage(user_list);
-                if (user == NULL) {
+        switch(scanf_retvalue) {
+            case EOF:
+                printf("\nEnd of file.\nThanks for using RecoMeal!");
+                return NULL;
+            case 2:
+                if (trail != '\n') {
+                    printf("\nInvalid input.\n\n");
                     continue;
                 }
-                return user;
-            case 2:
-                signupPage(user_list);
-                continue;
-            case 3:
-                return NULL;
+
+                switch(choice) {
+                    case 1:
+                        user = loginPage(user_list);
+                        if (user == NULL) {
+                            continue;
+                        }
+                        return user;
+                    case 2:
+                        signupPage(user_list);
+                        continue;
+                    case 3:
+                        printf("\nThanks for using RecoMeal!");
+                        return NULL;
+                    default:
+                        printf("\nInvalid choice. Please choose one of the options above.\n\n");
+                        continue;
+                }
+                break;
             default:
-                printf("\nInvalid choice. Please choose one of the options above\n\n.");
-                continue;
+                printf("\nExpected input is a single digit int.\n");
         }
     }
 }
