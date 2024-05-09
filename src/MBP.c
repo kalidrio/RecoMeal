@@ -135,7 +135,7 @@ void suggest(meal* catalogueArr, int items, FILE* to_history, User* user, User* 
 		else {
 			printf("With a budget of PHP %.2f, you can have the ff:\n", budget);
 			budget_it(catalogueArr, items, budget, to_history, user, head);
-            break;          
+			return;          
 		}
 	}
 	printf("\n\nCtrl-D: End of program. Thank you for using RecoMeal!\n");
@@ -180,16 +180,16 @@ void budget_it(meal* catalogueArr, int items, float budget, FILE* to_history, Us
 
     printf("--------------------------------------------------------------------------------------------------------------------------------\n");
 
-    printf("\nWhat's on your mind?\n");
-    printf("\n\t1. Record a purchase.\n");
-    printf("\t2. Update User Settings.\n");
-    printf("\t3. End Program.\n");
-    printf("Choice: ");
+    printf("\nWould you like to perform another action?\n");
+    printf("\n\t(1) Record a purchase\n");
+    printf("\t(2) Update Account info\n");
+    printf("\t(3) Exit\n");
+    printf("\nChoice: ");
 
 
     while((result = scanf(" %d%c", &choice, &trail)) != EOF) {
         if (result != 2 || trail != '\n') {
-            printf("\nPlease enter a valid number");
+            printf("\nPlease enter a valid number: ");
             clear_buffer();
             continue;
         }
@@ -203,13 +203,12 @@ void budget_it(meal* catalogueArr, int items, float budget, FILE* to_history, Us
                     userSettings(user, head);
                     break;
                 case 3:
-                    break;    
+                    return;    
                 default: 
-                    printf("\nPlease enter Y or N.");
+                    printf("\nPlease enter a choice from 1 to 3: ");
                     clear_buffer();
                     continue;
             }
-            break;
         }
     }
 }
