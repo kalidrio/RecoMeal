@@ -124,7 +124,7 @@ User* loginPage(User* user_list) {
     printf("Username: ");
     scanf_retvalue = scanf("%s", username);
 
-    if (scanf_retvalue = EOF) {
+    if (scanf_retvalue == EOF) {
         printf("\nEnd of file.\nThanks for using RecoMeal!");
         exit(EXIT_SUCCESS);
     }
@@ -132,7 +132,7 @@ User* loginPage(User* user_list) {
     printf("Password: ");
     scanf_retvalue = scanf("%s", password);
 
-    if (scanf_retvalue = EOF) {
+    if (scanf_retvalue == EOF) {
         printf("\nEnd of file.\nThanks for using RecoMeal!");
         exit(EXIT_SUCCESS);
     }
@@ -161,7 +161,7 @@ User* loginPage(User* user_list) {
 void signupPage(User* user_list) {
     char username[MAXLEN];
     char password[MAXLEN];
-    char scanf_retvalue;
+    int scanf_retvalue;
     User* curr_user = user_list;
     int flag = 1; // flag for creating account
     
