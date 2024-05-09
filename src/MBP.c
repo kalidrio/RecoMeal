@@ -5,7 +5,6 @@
 #include "account_management.h"
 #include "login.h"
 
-
 #define buflen 256
 
 void clear_buffer(void) { // to avoid infinite loops
@@ -63,7 +62,6 @@ int S_init(User* user, User* head) {
     	print_purchase(historyArr, history_items); // 3. Self-explanatory
     }
     suggest(catalogueArr, items, history, user, head);
-
 
     fclose(from_meals);
     fclose(history);
