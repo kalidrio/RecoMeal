@@ -118,12 +118,24 @@ User* mainMenu(User* user_list) {
 User* loginPage(User* user_list) {
     char username[MAXLEN];
     char password[MAXLEN];
+    int scanf_retvalue;
     User* curr_user = user_list;
 
     printf("Username: ");
-    scanf("%s", username);
+    scanf_retvalue = scanf("%s", username);
+
+    if (scanf_retvalue = EOF) {
+        printf("\nEnd of file.\nThanks for using RecoMeal!");
+        exit(EXIT_SUCCESS);
+    }
+
     printf("Password: ");
-    scanf("%s", password);
+    scanf_retvalue = scanf("%s", password);
+
+    if (scanf_retvalue = EOF) {
+        printf("\nEnd of file.\nThanks for using RecoMeal!");
+        exit(EXIT_SUCCESS);
+    }
 
     while(1){
         if (curr_user == NULL){
@@ -149,14 +161,25 @@ User* loginPage(User* user_list) {
 void signupPage(User* user_list) {
     char username[MAXLEN];
     char password[MAXLEN];
-
+    char scanf_retvalue;
     User* curr_user = user_list;
     int flag = 1; // flag for creating account
     
     printf("\nEnter a username: ");
     scanf("%s", username);
+
+    if (scanf_retvalue = EOF) {
+        printf("\nEnd of file.\nThanks for using RecoMeal!");
+        exit(EXIT_SUCCESS);
+    }
+
     printf("Enter a password: ");
     scanf("%s", password);
+
+    if (scanf_retvalue = EOF) {
+        printf("\nEnd of file.\nThanks for using RecoMeal!");
+        exit(EXIT_SUCCESS);
+    }
 
     while (curr_user != NULL) {
         if (strcmp(curr_user->username, username) == 0) {
