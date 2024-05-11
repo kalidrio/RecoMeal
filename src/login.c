@@ -102,7 +102,6 @@ User* mainMenu(User* user_list) {
                         continue;
                     case 3:
                         printf("\nThanks for using RecoMeal!\n");
-                        while ((getchar()) != '\n'); // avoid inf loops
                         return NULL;
                     default:
                         printf("\nInvalid choice. Please choose one of the options above.\n\n");
