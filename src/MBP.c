@@ -35,9 +35,23 @@ int S_init(User* user, User* head) {
         fclose(from_meals);
         return 1;
     }
+    delay(3);
+    printf("\nLogin Successful!\n");
+    printf("Launching Program");
+    delay_period(3);
+    delay(2);
+    printf("\n\n");
 
-    printf("\n---------------WELCOME TO RECOMEAL------------------\n");
-    printf("              Decide less, eat more                 \n");
+    printf("Welcome to :\n\n");
+    printf("██████╗░███████╗░█████╗░░█████╗░███╗░░░███╗███████╗░█████╗░██╗░░░░░\n");
+    printf("██╔══██╗██╔════╝██╔══██╗██╔══██╗████╗░████║██╔════╝██╔══██╗██║░░░░░\n");
+    printf("██████╔╝█████╗░░██║░░╚═╝██║░░██║██╔████╔██║█████╗░░███████║██║░░░░░\n");
+    printf("██╔══██╗██╔══╝░░██║░░██╗██║░░██║██║╚██╔╝██║██╔══╝░░██╔══██║██║░░░░░\n");
+    printf("██║░░██║███████╗╚█████╔╝╚█████╔╝██║░╚═╝░██║███████╗██║░░██║███████╗\n");
+    printf("╚═╝░░╚═╝╚══════╝░╚════╝░░╚════╝░╚═╝░░░░░╚═╝╚══════╝╚═╝░░╚═╝╚══════╝\n");
+
+
+    printf("\n-------------------Decide less, eat more------------------------_\n");
 
 
     while (fgets(line, sizeof(line), from_meals) != NULL) {
@@ -62,6 +76,12 @@ int S_init(User* user, User* head) {
     	print_purchase(historyArr, history_items); // 3. Self-explanatory
     }
     suggest(catalogueArr, items, history, user, head);
+
+    printf("\n");
+	printf("Closing. . ");
+    delay_period(4);
+	printf("\n\nEnd of program. Thank you for using RecoMeal!\n");
+
 
     fclose(from_meals);
     fclose(history);
@@ -107,14 +127,15 @@ void print_purchase(purchase* historyArr, int items) {
 	printf("------------------------------------------------\n");
 	printf("|          MEAL         |   PRICE  | SULITNESS |\n");
 	printf("|-----------------------|----------|-----------|\n");
-	for (int i = 0; i < items; i++) {
+	for (int i = 0; i < 15; i++) {
+        delay(2);
 		printf("|  %-20s |  %6.2f  |   %5.2f   |\n", 
 				historyArr[i].name,
             			historyArr[i].price,
 				historyArr[i].sulitness);
 	} 
 	printf("------------------------------------------------\n\n");
-
+    delay(3);
 }
 
 void suggest(meal* catalogueArr, int items, FILE* to_history, User* user, User* head) {  
@@ -122,7 +143,9 @@ void suggest(meal* catalogueArr, int items, FILE* to_history, User* user, User* 
 	char trail;
 	int result; 
 
-	printf("\nProgram running, press Ctrl-D to exit...\n\n");
+	printf("\nProgram running, press Ctrl-D to exit");
+    delay_period(3);
+    printf("\n");
 	printf("\nWhat is your budget for today's meal? PHP ");
 	while((result = scanf("%f%c", &budget, &trail)) != EOF) {
 		if (result != 2 || trail != '\n') {
@@ -131,12 +154,12 @@ void suggest(meal* catalogueArr, int items, FILE* to_history, User* user, User* 
 			continue;
 		}
 		else {
+            delay(5);
 			printf("With a budget of PHP %.2f, you can have the ff:\n", budget);
 			budget_it(catalogueArr, items, budget, to_history, user, head);
 			return;          
 		}
 	}
-	printf("\n\nCtrl-D: End of program. Thank you for using RecoMeal!\n");
 }
 
 void budget_it(meal* catalogueArr, int items, float budget, FILE* to_history, User* user, User* head) {
@@ -162,12 +185,14 @@ void budget_it(meal* catalogueArr, int items, float budget, FILE* to_history, Us
     }
 
     printf("\nFood items within your budget sorted by sulit value:\n\n");
+    delay(2);
     printf("--------------------------------------------------------------------------------------------------------------------------------\n");
     printf("|  ID  |          Main Course       | M. Price | Side Dish     | S. Price | Beverage      | B. Price | Total Price | Sulitness |\n");
     printf("|------|----------------------------|----------|---------------|----------|---------------|----------|-------------|-----------|\n");
 
     for (i = 0; i < items; i++) {
         if (temp[i].total_price <= budget) {
+            delay(2);
             printf("| %03d  | %-25s  | ₱%-7.2f | %-13s | ₱%-7.2f | %-13s | ₱%-7.2f | ₱%-10.2f | %-9.2f |\n",
                    temp[i].ID, temp[i].main_course, temp[i].Mprice,
                    temp[i].side, temp[i].Sprice,
@@ -179,8 +204,11 @@ void budget_it(meal* catalogueArr, int items, float budget, FILE* to_history, Us
     printf("--------------------------------------------------------------------------------------------------------------------------------\n");
 
     printf("\nWould you like to perform another action?\n");
+    delay(1);
     printf("\n\t(1) Record a purchase\n");
+    delay(1);
     printf("\t(2) Update Account info\n");
+    delay(1);
     printf("\t(3) Exit\n");
     printf("\nChoice: ");
 
@@ -194,9 +222,13 @@ void budget_it(meal* catalogueArr, int items, float budget, FILE* to_history, Us
         else {
             switch(choice) {
                 case 1:
+                    printf("Input Mode");
+                    delay_period(2);
                     inputMode(to_history);
                     break;
                 case 2:
+                    printf("Launching User Settings");
+                    delay_period(2);
                     print_userMenu();
                     userSettings(user, head);
                     break;
@@ -208,7 +240,9 @@ void budget_it(meal* catalogueArr, int items, float budget, FILE* to_history, Us
                     continue;
             }
         }
+        break;
     }
+    
 }
 
 void inputMode(FILE* to_history) {
@@ -233,7 +267,7 @@ void inputMode(FILE* to_history) {
     }
 
     purchase temp;
-
+    delay(2);
     printf("Please enter the name of the Meal: ");
     while((result = scanf(" %s%c", temp.name, &trail)) != EOF) {
         if (result != 2 || trail != '\n') {
@@ -247,7 +281,7 @@ void inputMode(FILE* to_history) {
     }
     printf("\n");
 
-
+    delay(2);
     printf("Please enter the Price of the Meal: ");
     while ((result = scanf("%f%c", &temp.price, &trail)) != EOF) {
         if (result != 2 || trail != '\n') {
@@ -259,7 +293,8 @@ void inputMode(FILE* to_history) {
         }
     }
     printf("\n");
-
+    
+    delay(2);
     printf("Please enter the Sulitness of the Meal (1-10): ");
     while ((result = scanf("%f%c", &temp.sulitness, &trail)) != EOF) {
         if (result != 2 || trail != '\n') {
@@ -279,11 +314,14 @@ void inputMode(FILE* to_history) {
         fprintf(to_history, "%s %f %f\n", currHistory[i].name, currHistory[i].price, currHistory[i].sulitness);
     }
 
+    printf("History Saved!\n");
 }
+
+
 /*user settings*/
 void print_userMenu(void){
     printf("What would you like to do? (Ctrl-D to Exit)\n");
-    printf("\t1. Change User\n\t2. Change Password\n\t3. Delete Account\n");
+    printf("\t1. Change Username\n\t2. Change Password\n\t3. Delete Account\n");
 }
 
 
@@ -300,14 +338,23 @@ void userSettings(User* account, User* head){
         else {
             switch(choice) {
                 case 1:
+                    printf("Change Username");
+                    delay(2);
+                    delay_period(2);
                     changeUser(account);
                     break;
                 case 2:
+                    printf("Change Password");
+                    delay(2);
+                    delay_period(2);
                     changePass(account);
                     break;
                 case 3:
+                    printf("Deleting Account");
+                    delay(2);
+                    delay_period(2);
                     deleteAccount(account, head);
-		    deleteAccountFromDB(account, head);
+		            deleteAccountFromDB(account, head);
                     break;
                 default:
                     printf("\nPlease enter a valid number.");
@@ -317,6 +364,32 @@ void userSettings(User* account, User* head){
             break;
         }
     }
+}
+
+
+void delay(int seconds)
+{
+    int count;
+    for (count = seconds; count > 0; count--) {
+        int i;
+        for (i = 0; i < 100000000; i++) {}
+        fflush(stdout); // Flush the output buffer to ensure it appears immediately
+    }
+}
+
+void delay_period(int seconds)
+{
+    int count;
+    for (count = seconds; count > 0; count--) {
+        int i;
+        for (i = 0; i < 100000000; i++) {}
+        for(i=0; i<count; i++){
+            delay(1);
+            printf(". ");
+        }
+        fflush(stdout); // Flush the output buffer to ensure it appears immediately
+    }
+    printf("\n");
 }
 
 

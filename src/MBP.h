@@ -141,3 +141,15 @@ void userSettings(User* account, User* head);
 
 
 
+void delay(int seconds);
+/**
+* @brief delays the execution of the next lines.
+* @param seconds the number of seconds you want to delay the program
+**/
+
+
+void delay_period(int seconds);
+/**
+* @brief delays the execution of a program for loading and prints "." to show loading.
+* @param seconds the number of seconds you want to delay the program
+**/

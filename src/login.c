@@ -69,8 +69,8 @@ User* mainMenu(User* user_list) {
     int scanf_retvalue;
 
     while(1){
-        printf("Welcome to RecoMeal!\n");
-        printf("Ctrl+D anytime to exit.\n\n");
+        printf("--Welcome to RecoMeal!--\n");
+        printf("Ctrl-D anytime to exit.\n\n");
         printf("(1) Log In\n");
         printf("(2) Sign Up\n");
         printf("(3) Exit\n\n");
@@ -81,7 +81,7 @@ User* mainMenu(User* user_list) {
 
         switch(scanf_retvalue) {
             case EOF:
-                printf("\nEnd of file.\nThanks for using RecoMeal!");
+                printf("\nEnd of file.\nThanks for using RecoMeal!\n");
                 return NULL;
             case 2:
                 if (trail != '\n') {
@@ -101,7 +101,7 @@ User* mainMenu(User* user_list) {
                         signupPage(user_list);
                         continue;
                     case 3:
-                        printf("\nThanks for using RecoMeal!");
+                        printf("\nThanks for using RecoMeal!\n");
                         while ((getchar()) != '\n'); // avoid inf loops
                         return NULL;
                     default:
@@ -125,7 +125,7 @@ User* loginPage(User* user_list) {
     scanf_retvalue = scanf("%s", username);
 
     if (scanf_retvalue == EOF) {
-        printf("\nEnd of file.\nThanks for using RecoMeal!");
+        printf("\nEnd of file.\nThanks for using RecoMeal!\n");
         exit(EXIT_SUCCESS);
     }
 
@@ -133,7 +133,7 @@ User* loginPage(User* user_list) {
     scanf_retvalue = scanf("%s", password);
 
     if (scanf_retvalue == EOF) {
-        printf("\nEnd of file.\nThanks for using RecoMeal!");
+        printf("\nEnd of file.\nThanks for using RecoMeal!\n");
         exit(EXIT_SUCCESS);
     }
 
@@ -169,7 +169,7 @@ void signupPage(User* user_list) {
     scanf("%s", username);
 
     if (scanf_retvalue = EOF) {
-        printf("\nEnd of file.\nThanks for using RecoMeal!");
+        printf("\nEnd of file.\nThanks for using RecoMeal!\n");
         exit(EXIT_SUCCESS);
     }
 
@@ -177,7 +177,7 @@ void signupPage(User* user_list) {
     scanf("%s", password);
 
     if (scanf_retvalue = EOF) {
-        printf("\nEnd of file.\nThanks for using RecoMeal!");
+        printf("\nEnd of file.\nThanks for using RecoMeal!\n");
         exit(EXIT_SUCCESS);
     }
 

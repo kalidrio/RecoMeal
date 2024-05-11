@@ -1,5 +1,5 @@
 001 Adobo_w/rice 60.00 none 0.00 Water 0.00 60.00 7.6
-002 Taugi_w/rice 35.00 Turon 10.00 Lemon Juice 10.00 55.00 8.0
+002 Taugi_w/rice 35.00 Turon 10.00 Lemon_Juice 10.00 55.00 8.0
 003 Sisig_w/rice 70.00 none 0.00 Water 0.00 70.00 7.0
 004 Tokwa't_Sitaw_w/rice 35.00 Chicken_Skin 25.00 Water 0.00 60.00 8.5
 005 Tapa_w/rice 50.00 none 0.00 Water 0.00 50.00 7.1
