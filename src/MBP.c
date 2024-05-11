@@ -354,7 +354,6 @@ void userSettings(User* account, User* head){
                     delay(2);
                     delay_period(2);
                     deleteAccount(account, head);
-		            deleteAccountFromDB(account, head);
                     break;
                 default:
                     printf("\nPlease enter a valid number.");
