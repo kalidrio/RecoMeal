@@ -127,7 +127,7 @@ void print_purchase(purchase* historyArr, int items) {
 	printf("------------------------------------------------\n");
 	printf("|          MEAL         |   PRICE  | SULITNESS |\n");
 	printf("|-----------------------|----------|-----------|\n");
-	for (int i = 0; i < 15; i++) {
+	for (int i = 0; i < items; i++) {
         delay(2);
 		printf("|  %-20s |  %6.2f  |   %5.2f   |\n", 
 				historyArr[i].name,
