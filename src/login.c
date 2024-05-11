@@ -3,6 +3,7 @@
 #include <string.h>
 #include "structs.h"
 #include "login.h"
+#include "MBP.h"
 
 // Parses /DB and creates a linked list of User structs
 // NOTE: The head of the struct does not represent a user and should be skipped when looping through the list
@@ -86,7 +87,7 @@ User* mainMenu(User* user_list) {
             case 2:
                 if (trail != '\n') {
                     printf("\nInvalid input.\n\n");
-                    while ((getchar()) != '\n'); // avoid inf loops
+                    clear_buffer(); // avoid inf loops
                     continue;
                 }
 
@@ -105,6 +106,7 @@ User* mainMenu(User* user_list) {
                         return NULL;
                     default:
                         printf("\nInvalid choice. Please choose one of the options above.\n\n");
+                        clear_buffer();
                         continue;
                 }
                 break;
