@@ -51,7 +51,7 @@ int S_init(User* user, User* head) {
     printf("╚═╝░░╚═╝╚══════╝░╚════╝░░╚════╝░╚═╝░░░░░╚═╝╚══════╝╚═╝░░╚═╝╚══════╝\n");
 
 
-    printf("\n-------------------Decide less, eat more------------------------_\n");
+    printf("\n-------------------Decide less, eat more--------------------------\n");
 
 
     while (fgets(line, sizeof(line), from_meals) != NULL) {
