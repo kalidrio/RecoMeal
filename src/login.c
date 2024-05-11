@@ -81,7 +81,7 @@ User* mainMenu(User* user_list) {
 
         switch(scanf_retvalue) {
             case EOF:
-                printf("\nEnd of file.\nThanks for using RecoMeal!\n");
+                printf("\nEnd of Program.\nThank you for using RecoMeal!\n");
                 return NULL;
             case 2:
                 if (trail != '\n') {
@@ -124,7 +124,7 @@ User* loginPage(User* user_list) {
     scanf_retvalue = scanf("%s", username);
 
     if (scanf_retvalue == EOF) {
-        printf("\nEnd of file.\nThanks for using RecoMeal!\n");
+        printf("\nEnd of Program.\nThank you for using RecoMeal!\n");
         exit(EXIT_SUCCESS);
     }
 
@@ -132,7 +132,7 @@ User* loginPage(User* user_list) {
     scanf_retvalue = scanf("%s", password);
 
     if (scanf_retvalue == EOF) {
-        printf("\nEnd of file.\nThanks for using RecoMeal!\n");
+        printf("\nEnd of Program.\nThank you for using RecoMeal!\n");
         exit(EXIT_SUCCESS);
     }
 
@@ -168,7 +168,7 @@ void signupPage(User* user_list) {
     scanf_retvalue = scanf("%s", username);
 
     if (scanf_retvalue == EOF) {
-        printf("\nEnd of file.\nThanks for using RecoMeal!\n");
+        printf("\nEnd of Program.\nThank you for using RecoMeal!\n");
         exit(EXIT_SUCCESS);
     }
 
@@ -176,7 +176,7 @@ void signupPage(User* user_list) {
     scanf_retvalue = scanf("%s", password);
 
     if (scanf_retvalue == EOF) {
-        printf("\nEnd of file.\nThanks for using RecoMeal!\n");
+        printf("\nEnd of Program.\nThank you for using RecoMeal!\n");
         exit(EXIT_SUCCESS);
     }
 
@@ -189,7 +189,7 @@ void signupPage(User* user_list) {
     
     if (flag == 1) {
         createAccount(username, password, user_list);
-        printf("\n\n");
+        printf("\nAccount succesfully created!\n\n");
     }
     else {
         printf("\nUsername already exists.\n");
