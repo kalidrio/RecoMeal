@@ -166,17 +166,17 @@ void signupPage(User* user_list) {
     int flag = 1; // flag for creating account
     
     printf("\nEnter a username: ");
-    scanf("%s", username);
+    scanf_retvalue = scanf("%s", username);
 
-    if (scanf_retvalue = EOF) {
+    if (scanf_retvalue == EOF) {
         printf("\nEnd of file.\nThanks for using RecoMeal!\n");
         exit(EXIT_SUCCESS);
     }
 
     printf("Enter a password: ");
-    scanf("%s", password);
+    scanf_retvalue = scanf("%s", password);
 
-    if (scanf_retvalue = EOF) {
+    if (scanf_retvalue == EOF) {
         printf("\nEnd of file.\nThanks for using RecoMeal!\n");
         exit(EXIT_SUCCESS);
     }
