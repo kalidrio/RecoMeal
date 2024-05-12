@@ -43,15 +43,20 @@ int S_init(User* user, User* head) {
     printf("\n\n");
 
     printf("Welcome to :\n\n");
-    printf("██████╗░███████╗░█████╗░░█████╗░███╗░░░███╗███████╗░█████╗░██╗░░░░░\n");
-    printf("██╔══██╗██╔════╝██╔══██╗██╔══██╗████╗░████║██╔════╝██╔══██╗██║░░░░░\n");
-    printf("██████╔╝█████╗░░██║░░╚═╝██║░░██║██╔████╔██║█████╗░░███████║██║░░░░░\n");
-    printf("██╔══██╗██╔══╝░░██║░░██╗██║░░██║██║╚██╔╝██║██╔══╝░░██╔══██║██║░░░░░\n");
-    printf("██║░░██║███████╗╚█████╔╝╚█████╔╝██║░╚═╝░██║███████╗██║░░██║███████╗\n");
-    printf("╚═╝░░╚═╝╚══════╝░╚════╝░░╚════╝░╚═╝░░░░░╚═╝╚══════╝╚═╝░░╚═╝╚══════╝\n");
+    printf("  ██████╗░███████╗░█████╗░░█████╗░███╗░░░███╗███████╗░█████╗░██╗░░░░░\n");
+    delay(2);
+    printf("  ██╔══██╗██╔════╝██╔══██╗██╔══██╗████╗░████║██╔════╝██╔══██╗██║░░░░░\n");
+    delay(2);
+    printf("  ██████╔╝█████╗░░██║░░╚═╝██║░░██║██╔████╔██║█████╗░░███████║██║░░░░░\n");
+    delay(2);
+    printf("  ██╔══██╗██╔══╝░░██║░░██╗██║░░██║██║╚██╔╝██║██╔══╝░░██╔══██║██║░░░░░\n");
+    delay(2);
+    printf("  ██║░░██║███████╗╚█████╔╝╚█████╔╝██║░╚═╝░██║███████╗██║░░██║███████╗\n");
+    delay(2);
+    printf("  ╚═╝░░╚═╝╚══════╝░╚════╝░░╚════╝░╚═╝░░░░░╚═╝╚══════╝╚═╝░░╚═╝╚══════╝\n");
 
 
-    printf("\n-------------------Decide less, eat more--------------------------\n");
+    printf("\n  -------------------Decide less, eat more--------------------------\n");
 
 
     while (fgets(line, sizeof(line), from_meals) != NULL) {
@@ -124,17 +129,17 @@ void read_history(FILE* from_history, purchase* historyArr) {
 
 void print_purchase(purchase* historyArr, int items) {
 	printf("\n\nYou've recently bought the following:\n");
-	printf("------------------------------------------------\n");
-	printf("|          MEAL         |   PRICE  | SULITNESS |\n");
-	printf("|-----------------------|----------|-----------|\n");
+	printf("\t  ------------------------------------------------\n");
+	printf("\t  |          MEAL         |   PRICE  | SULITNESS |\n");
+	printf("\t  |-----------------------|----------|-----------|\n");
 	for (int i = 0; i < items; i++) {
         delay(2);
-		printf("|  %-20s |  %6.2f  |   %5.2f   |\n", 
+		printf("\t  |  %-20s |  %6.2f  |   %5.2f   |\n", 
 				historyArr[i].name,
             			historyArr[i].price,
 				historyArr[i].sulitness);
 	} 
-	printf("------------------------------------------------\n\n");
+	printf("\t  ------------------------------------------------\n\n");
     delay(3);
 }
 
@@ -321,7 +326,8 @@ void inputMode(FILE* to_history) {
 /*user settings*/
 void print_userMenu(void){
     printf("What would you like to do? (Ctrl-D to Exit)\n");
-    printf("\t1. Change Username\n\t2. Change Password\n\t3. Delete Account\n");
+    printf("\t1. Change Username\n\t2. Change Password\n\t3. Delete Account\n");\
+    printf("Choice: ");
 }
 
 
@@ -356,7 +362,7 @@ void userSettings(User* account, User* head){
                     deleteAccount(account, head);
                     break;
                 default:
-                    printf("\nPlease enter a valid number.");
+                    printf("\nPlease enter a valid number:");
                     clear_buffer();
                     continue;
             }
