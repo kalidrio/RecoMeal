@@ -1,13 +1,11 @@
-To build the program, please use: 
-**"gcc -o recomeal main.c login.c MBP.c account_management.c"**
-
-
 User Manual:
 
 Getting Started
 
   Github repo: https://github.com/kalidrio/RecoMeal 
   Open a terminal and navigate to the src directory.
+  To build the program, please use: 
+**"gcc -o recomeal main.c login.c MBP.c account_management.c"**
   Type “./recomeal” in the terminal to call the program, no additional arguments are needed.
   The program may terminate anytime by pressing Ctrl-D/Ctrl-Z(EOF)
 
