@@ -44,30 +44,7 @@
 
   - Exit: this closes the program.
 
-## Developers
 
-**------------------------------------------------------**
-**|         Member            |     Contribution       |**
-**------------------------------------------------------**
-**|   DELA CRUZ, Mark         |  - MBP Source Code     |**
-**|   @maki-rollsushi         |  - MBP & MUS Merge     |**
-**|                           |  - Documentation       |**
-**|                           |  - MBP Debugging       |**
-**------------------------------------------------------**
-**|   DRIO, John Patrick      |  - Program Name        |**
-**|   @kalidrio               |  - MBP Source Code     |**
-**|                           |  - Documentation       |**
-**|                           |  - Flow Chart          |**
-**------------------------------------------------------**
-**|   FEESER, Terence         |  - MUS Source Code     |**
-**|   @GraviQuate             |  - MBP & MUS Merge     |**
-**|                           |  - Debugging MUS       |**
-**|                           |  - Documentation       |**
-**|                           |  - Flow Chart          |**
-**------------------------------------------------------**
-**|   LUCILO, Jelyn           |  - MUS Source Code     |**
-**|   @LynLucilo              |  - Documentation       |**
-**------------------------------------------------------**
 
 The program ends and displays the exit message associated with a successful run.
 
