@@ -42,17 +42,13 @@ int S_init(User* user, User* head) {
     delay(2);
     printf("\n\n");
 
+    delay(2);
     printf("Welcome to :\n\n");
     printf("  ██████╗░███████╗░█████╗░░█████╗░███╗░░░███╗███████╗░█████╗░██╗░░░░░\n");
-    delay(2);
     printf("  ██╔══██╗██╔════╝██╔══██╗██╔══██╗████╗░████║██╔════╝██╔══██╗██║░░░░░\n");
-    delay(2);
     printf("  ██████╔╝█████╗░░██║░░╚═╝██║░░██║██╔████╔██║█████╗░░███████║██║░░░░░\n");
-    delay(2);
     printf("  ██╔══██╗██╔══╝░░██║░░██╗██║░░██║██║╚██╔╝██║██╔══╝░░██╔══██║██║░░░░░\n");
-    delay(2);
     printf("  ██║░░██║███████╗╚█████╔╝╚█████╔╝██║░╚═╝░██║███████╗██║░░██║███████╗\n");
-    delay(2);
     printf("  ╚═╝░░╚═╝╚══════╝░╚════╝░░╚════╝░╚═╝░░░░░╚═╝╚══════╝╚═╝░░╚═╝╚══════╝\n");
 
 
@@ -273,10 +269,10 @@ void inputMode(FILE* to_history) {
 
     purchase temp;
     delay(2);
-    printf("Please enter the name of the Meal: ");
+    printf("\nMeal Name: ");
     while((result = scanf(" %s%c", temp.name, &trail)) != EOF) {
         if (result != 2 || trail != '\n') {
-            printf("\nPlease enter again.");
+            printf("\nInvalid input. Try again\nMeal Name: ");
             clear_buffer();
             continue;
         }
@@ -284,26 +280,24 @@ void inputMode(FILE* to_history) {
             break;
         }
     }
-    printf("\n");
 
     delay(2);
-    printf("Please enter the Price of the Meal: ");
+    printf("Meal Price: ");
     while ((result = scanf("%f%c", &temp.price, &trail)) != EOF) {
         if (result != 2 || trail != '\n') {
-            printf("\nPlease enter again.");
+            printf("\nInvalid input. Try again.\nMeal Price: ");
             clear_buffer();
             continue;
         } else {
             break;
         }
     }
-    printf("\n");
     
     delay(2);
-    printf("Please enter the Sulitness of the Meal (1-10): ");
+    printf("Meal Rating (1-10): ");
     while ((result = scanf("%f%c", &temp.sulitness, &trail)) != EOF) {
         if (result != 2 || trail != '\n') {
-            printf("\nPlease enter again. ");
+            printf("\nInvalid input. Try again.\nSulitness (1-10):  ");
             clear_buffer();
             continue;
         } else {
