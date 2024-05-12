@@ -72,6 +72,8 @@ The program ends and displays the exit message associated with a successful run.
 |---------------------------|------------------------|
 |   LUCILO, Jelyn           |  - MUS Source Code     |
 |   @LynLucilo              |  - Documentation       |
+|---------------------------|------------------------|
+
 
 
 
