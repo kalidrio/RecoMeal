@@ -3,6 +3,7 @@
 #include <string.h>
 #include "structs.h"
 #include "login.h"
+#include "MBP.h"
 
 // Parses /DB and creates a linked list of User structs
 // NOTE: The head of the struct does not represent a user and should be skipped when looping through the list
@@ -70,10 +71,15 @@ User* mainMenu(User* user_list) {
 
     while(1){
         printf("--Welcome to RecoMeal!--\n");
+        delay(1);
         printf("Ctrl-D anytime to exit.\n\n");
+        delay(1);
         printf("(1) Log In\n");
+        delay(1);
         printf("(2) Sign Up\n");
+        delay(1);
         printf("(3) Exit\n\n");
+        delay(1);
 
         printf("Please input the number of your choice: ");
 
@@ -81,12 +87,13 @@ User* mainMenu(User* user_list) {
 
         switch(scanf_retvalue) {
             case EOF:
-                printf("\nEnd of Program.\nThank you for using RecoMeal!\n");
+                printf("\nEnd of Program. Thank you for using RecoMeal!\n");
+                delay(7);
                 return NULL;
             case 2:
                 if (trail != '\n') {
                     printf("\nInvalid input.\n\n");
-                    while ((getchar()) != '\n'); // avoid inf loops
+                    clear_buffer(); // avoid inf loops
                     continue;
                 }
 
@@ -101,15 +108,20 @@ User* mainMenu(User* user_list) {
                         signupPage(user_list);
                         continue;
                     case 3:
+                        delay(1);
                         printf("\nThanks for using RecoMeal!\n");
+                        delay(7);
                         return NULL;
                     default:
                         printf("\nInvalid choice. Please choose one of the options above.\n\n");
+                        delay(3);
+                        clear_buffer();
                         continue;
                 }
                 break;
             default:
                 printf("\nExpected input is a single digit int.\n");
+                delay(3);
         }
     }
 }
@@ -124,7 +136,8 @@ User* loginPage(User* user_list) {
     scanf_retvalue = scanf("%s", username);
 
     if (scanf_retvalue == EOF) {
-        printf("\nEnd of Program.\nThank you for using RecoMeal!\n");
+        printf("\nEnd of Program. Thank you for using RecoMeal!\n");
+        delay(7);
         exit(EXIT_SUCCESS);
     }
 
@@ -132,13 +145,15 @@ User* loginPage(User* user_list) {
     scanf_retvalue = scanf("%s", password);
 
     if (scanf_retvalue == EOF) {
-        printf("\nEnd of Program.\nThank you for using RecoMeal!\n");
+        printf("\nEnd of Program. Thank you for using RecoMeal!\n");
+        delay(7);
         exit(EXIT_SUCCESS);
     }
 
     while(1){
         if (curr_user == NULL){
             printf("\nAccount does not exist.\n\n");
+            delay(3);
             break;
         }
 
@@ -148,6 +163,7 @@ User* loginPage(User* user_list) {
             }
             else{
                 printf("\nWrong password.\n\n");
+                delay(3);
                 break;
             }
         }
@@ -168,7 +184,8 @@ void signupPage(User* user_list) {
     scanf_retvalue = scanf("%s", username);
 
     if (scanf_retvalue == EOF) {
-        printf("\nEnd of Program.\nThank you for using RecoMeal!\n");
+        printf("\nEnd of Program. Thank you for using RecoMeal!\n");
+        delay(7);
         exit(EXIT_SUCCESS);
     }
 
@@ -176,7 +193,8 @@ void signupPage(User* user_list) {
     scanf_retvalue = scanf("%s", password);
 
     if (scanf_retvalue == EOF) {
-        printf("\nEnd of Program.\nThank you for using RecoMeal!\n");
+        printf("\nEnd of Program. Thank you for using RecoMeal!\n");
+        delay(7);
         exit(EXIT_SUCCESS);
     }
 
@@ -190,9 +208,11 @@ void signupPage(User* user_list) {
     if (flag == 1) {
         createAccount(username, password, user_list);
         printf("\nAccount succesfully created!\n\n");
+        delay(3);
     }
     else {
         printf("\nUsername already exists.\n");
+        delay(3);
     }
 }
 
