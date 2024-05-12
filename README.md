@@ -53,6 +53,7 @@ The program ends and displays the exit message associated with a successful run.
 ## Developers
 
 |         Member            |     Contribution       |
+|---------------------------|------------------------|
 |   DELA CRUZ, Mark         |  - MBP Source Code     |
 |   @maki-rollsushi         |  - MBP & MUS Merge     |
 |                           |  - Documentation       |
@@ -68,6 +69,7 @@ The program ends and displays the exit message associated with a successful run.
 |                           |  - Flow Chart          |
 |   LUCILO, Jelyn           |  - MUS Source Code     |
 |   @LynLucilo              |  - Documentation       |
+
 
 
 
