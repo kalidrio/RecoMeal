@@ -113,7 +113,7 @@ User* mainMenu(User* user_list) {
                         delay(7);
                         return NULL;
                     default:
-                        printf("\nInvalid choice. Please choose one of the options above.\n\n");
+                        printf("\nInvalid choice. Please choose one of the options above.\nPress ENTER to continue.\n");
                         delay(3);
                         clear_buffer();
                         continue;
@@ -121,6 +121,7 @@ User* mainMenu(User* user_list) {
                 break;
             default:
                 printf("\nExpected input is a single digit int.\n");
+		clear_buffer();
                 delay(3);
         }
     }
